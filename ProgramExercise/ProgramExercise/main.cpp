@@ -11,7 +11,9 @@
 
 using namespace std;
 
-//extern int GlobalVal;
+// 全局变量可以多次声明，但是不能多次定义
+extern int GlobalVal;
+//int GlobalVal = 6;
 
 struct ListNode
 {
@@ -195,6 +197,7 @@ public:
 		return res;
 	}
 
+	//字符串匹配
 	bool match(char* str, char* pattern)
 	{
 		int patLen = strlen(pattern);
@@ -366,6 +369,7 @@ public:
 	}
 };
 
+// 下面是对C++基础测试代码
 class Base
 {
 public:
@@ -571,6 +575,22 @@ void fun_9()
 	tr1::function<void()> STLFun = []() {cout << "lambda" << endl; };
 }
 
+void GetMaxMultiRes()
+{
+	int stuNum = 0;
+	vector<int> stuAbility;
+	int k = 0, d = 0;
+
+	cin >> stuNum;
+	stuAbility.resize(stuNum);
+	for (int i = 0; i < stuNum; ++i)
+		cin >> stuAbility[i];
+	
+	cin >> k >> d;
+
+	
+}
+
 void fun_10()
 {
 	int* a = 0;
@@ -578,6 +598,7 @@ void fun_10()
 	cout << a << endl;
 }
 
+//结构体/类 对齐测试
 struct AlignTest
 {
 	char a;
@@ -587,76 +608,90 @@ struct AlignTest
 
 int main()
 {
-	Solution A;
-	std::string str = "123486";
-	auto iter = str.end();
-	int* res = new int(5);
-	int* a = (int*)malloc(sizeof(int));
-	*a = 10;
-	char charStr[20] = "aaa";
-	char charPat[20] = "ab*a";
-	char charNum[] = "123.45e+6";
+//	Solution A;
+//	std::string str = "123486";
+//	auto iter = str.end();
+//	int* res = new int(5);
+//	int* a = (int*)malloc(sizeof(int));
+//	*a = 10;
+//	char charStr[20] = "aaa";
+//	char charPat[20] = "ab*a";
+//	char charNum[] = "123.45e+6";
+//
+//	cout << A.LastRemaining_Solution(5, 2) << endl;
+//	cout << A.Add(100,50) << endl;
+//	cout << A.StrToInt(str)<< endl;
+//	cout << *res << endl;
+//	cout << *a << endl;
+//
+//	fun_0();
+//	fun_1();
+//	fun_2();
+//	fun_4();
+//	
+//	cout << endl;
+//	cout << strlen(charStr) << endl;
+//
+//	if (A.match(charStr, charPat))
+//		cout << "匹配成功" << endl;
+//	else cout << "匹配失败" << endl;
+//
+//	if (A.isNumeric(charNum))
+//		cout << "是数字" << endl;
+//	else cout << "不是数字" << endl << endl;
+//
+//	delete res;
+//	free(a);
+//
+//	/*int m, n;
+//	cin >> n >> m;
+//	if (n<2 || n>1e10)return;
+//	if (m < 1)return;
+//	if (n % (2 * m))return;
+//
+//	int couples = n / (2 * m);
+//	cout << couples * m * m;*/
+//
+//	//vector<vector<int>> vec;
+//	int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//	vector<int> numVec(numbers, numbers + 10);
+//	numVec.push_back(2);
+//	for (auto it : numVec)
+//	{
+//		cout << it << ' ';
+//	}
+//	cout << endl;
+//
+//	fun_8();
+//	fun_10();
+//
+//	cout << GlobalVal << endl;
+//
+//	string sortStr = "BCDAGF";
+//	sort(sortStr.begin(), sortStr.end());
+//
+//	cout << sortStr << endl;
+//	cout << sizeof(AlignTest) << endl;
+//
+//	int num = 10;
+//	int* p = &num;
+//	*p = 5;
+//	cout << *p << endl;
+//
+//	//char str2[] = { 'a','b','c','d' };  //错误，由于没有'\0'结束符
+//	char str3[] = { 'a','b','c','d','\0' };  //正确
+//	char str4[] = "abcd";                 //正确，直接申请的字符串，不需要 '\0'
+//	char* str5 = str4;
+//	//str3 = str5;           //错误，此时str3是个常量，不能被更改，但是它所指的值是可以改变的
+//	str5[1] = 'B';
+//	cout << ++str5 << endl;  //正确
+//	//cout << ++str4 << endl;  //错误
+//	int nums[] = { 1,2,3,4,5 };
+//	int* numsPtr = nums;
+//	cout << *nums << endl;
+//	cout << *(++numsPtr) << endl;
+	GetMaxMultiRes();
 
-	cout << A.LastRemaining_Solution(5, 2) << endl;
-	cout << A.Add(100,50) << endl;
-	cout << A.StrToInt(str)<< endl;
-	cout << *res << endl;
-	cout << *a << endl;
-
-	fun_0();
-	fun_1();
-	fun_2();
-	fun_4();
-	
-	cout << endl;
-	cout << strlen(charStr) << endl;
-
-	if (A.match(charStr, charPat))
-		cout << "匹配成功" << endl;
-	else cout << "匹配失败" << endl;
-
-	if (A.isNumeric(charNum))
-		cout << "是数字" << endl;
-	else cout << "不是数字" << endl << endl;
-
-	delete res;
-	free(a);
-
-	/*int m, n;
-	cin >> n >> m;
-	if (n<2 || n>1e10)return;
-	if (m < 1)return;
-	if (n % (2 * m))return;
-
-	int couples = n / (2 * m);
-	cout << couples * m * m;*/
-
-	//vector<vector<int>> vec;
-	int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
-	vector<int> numVec(numbers, numbers + 10);
-	numVec.push_back(2);
-	for (auto it : numVec)
-	{
-		cout << it << ' ';
-	}
-	cout << endl;
-
-	//fun_7<5>();
-	fun_8();
-	fun_10();
-
-	cout << GlobalVal << endl;
-
-	string sortStr = "BCDAGF";
-	sort(sortStr.begin(), sortStr.end());
-
-	cout << sortStr << endl;
-	cout << sizeof(AlignTest) << endl;
-
-	int num = 10;
-	int* p = &num;
-	*p = 5;
-	cout << *p << endl;
 	system("pause");
 	//getchar();
 	return 0;
