@@ -1,7 +1,0 @@
-﻿  main.cpp
-d:\vs项目\coderepo\programexercise\programexercise\main.cpp(42): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-d:\vs项目\coderepo\programexercise\programexercise\main.cpp(52): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-d:\vs项目\coderepo\programexercise\programexercise\main.cpp(128): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-d:\vs项目\coderepo\programexercise\programexercise\main.cpp(203): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-d:\vs项目\coderepo\programexercise\programexercise\main.cpp(204): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  ProgramExercise.vcxproj -> D:\vs项目\CodeRepo\ProgramExercise\x64\Debug\ProgramExercise.exe
