@@ -580,6 +580,7 @@ void GetMaxMultiRes()
 	int stuNum = 0;
 	vector<int> stuAbility;
 	int k = 0, d = 0;
+	int multiRes = 1;
 
 	cin >> stuNum;
 	stuAbility.resize(stuNum);
@@ -588,7 +589,101 @@ void GetMaxMultiRes()
 	
 	cin >> k >> d;
 
+	vector<tuple<int, int>> curStus; //用来记录当前符合条件的数组
+	curStus.resize(k);
+	//初始化该数组
+	for (int i = 0; i < k; ++i)
+	{
+		curStus[i] = tuple<int, int>(i, stuAbility[i]);
+		multiRes *= stuAbility[i];
+	}
+		
+	for (int i = k; i < stuNum; ++i)
+	{
+
+	}
+}
+
+void EnCodeString()
+{
+	string str, res;
+	cin >> str;
+
+	char tmp = str[0];
+	int repeatLen = 1;
+	for (int i = 1; i < str.length(); ++i)
+	{
+		if (str[i] == tmp)
+		{
+			repeatLen++;
+		}
+		else 
+		{
+			res += ('0' + repeatLen);
+			res += tmp;
+			tmp = str[i];
+			repeatLen = 1;
+		}
+
+		if (str[i + 1] == '\0')
+		{
+			res += ('0' + repeatLen);
+			res += tmp;
+		}
+	}
+
+	cout << res;
+}
+
+void GetMaxSum()
+{
+	//vector<vector<int>> arrays;
+	int N, D;
+	cin >> N >> D;
+	vector<vector<int>> arrays(N, vector<int>(N));
 	
+	for (int i = 0; i < N; ++i)
+		for (int j = 0; j < N; ++j)
+			cin >> arrays[i][j];
+
+	int maxSum = 0;
+	//横向、纵向
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < N - D + 1; ++j)
+		{
+			int tmp1 = 0, tmp2 = 0;
+			for (int k = 0; k < D; ++k)
+			{
+				tmp1 += arrays[i][j + k];
+				tmp2 += arrays[j + k][i];
+			}
+				
+			maxSum = max(maxSum, max(tmp1, tmp2));
+		}
+	}
+
+	//左上->左下，右上->右下
+	for (int i = D - 1; i < N; ++i)
+	{
+		for (int j = 0; j < i - D + 1; ++j)
+		{
+			int tmp1 = 0, tmp2 = 0, tmp3 = 0, tmp4 = 0;
+			for (int k = 0; k < D; ++k)
+			{
+				int x = j + k;
+				int y = i - j - k;
+				tmp1 += arrays[x][y];
+				tmp2 += arrays[N - 1 - x][y];
+				tmp3 += arrays[N - 1 - x][N - 1 - y];
+				tmp4 += arrays[x][N - 1 - y];
+
+				maxSum = max(maxSum, max(max(tmp1, tmp2), max(tmp3, tmp4)));
+			}
+		}
+	}
+
+	cout << maxSum;
 }
 
 void fun_10()
@@ -690,7 +785,9 @@ int main()
 //	int* numsPtr = nums;
 //	cout << *nums << endl;
 //	cout << *(++numsPtr) << endl;
-	GetMaxMultiRes();
+	//GetMaxMultiRes();
+	//EnCodeString();
+	GetMaxSum();
 
 	system("pause");
 	//getchar();
