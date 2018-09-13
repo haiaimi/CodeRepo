@@ -686,6 +686,13 @@ void GetMaxSum()
 	cout << maxSum;
 }
 
+//ÍÆÏä×Ó
+void PushBox()
+{
+	int N, M;
+	vector<vector<int>> map;
+}
+
 void fun_10()
 {
 	int* a = 0;
