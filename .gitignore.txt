@@ -4,7 +4,12 @@
 *.ldb
 *.sln
 *.config
-
+*.db
+*.tlog
+*.log
+*.obj
+*.idb
+*.pdb
 
 #¹ıÂËÎÄ¼ş¼ĞDebug,Release,obj
 Debug/
