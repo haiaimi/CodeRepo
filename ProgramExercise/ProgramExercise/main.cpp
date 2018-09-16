@@ -8,6 +8,9 @@
 #include "FunDeclare_1.h"
 #include "FunDeclare_2.h"
 #include <assert.h>
+#include <intsafe.h>
+#include <utility>
+
 
 using namespace std;
 
@@ -399,6 +402,11 @@ public:
 		cout << "Base Overload" << endl;
 	}
 
+	virtual void defaultParam(int i = 0)
+	{
+
+	}
+
 	//operator= 必须为成员函数
 	Base& operator=(Base& Obj)
 	{
@@ -433,6 +441,11 @@ public:
 	void implFun()
 	{
 		cout << "Derive Fun" << endl;
+	}
+
+	void defaultParam(int i /* = 0 */)
+	{
+		cout << i << endl;
 	}
 
 	~Derive()
@@ -575,6 +588,19 @@ void fun_9()
 	tr1::function<void()> STLFun = []() {cout << "lambda" << endl; };
 }
 
+void fun_10()
+{
+	Derive A;
+	Base* B = &A;
+	
+	//下面可知缺省参数 会继承于基类，不是动态的
+	B->defaultParam();
+	//使用引用 实现多态，  
+	//注意引用也可以实现多态
+	Base& C = A; 
+	C.defaultParam();
+}
+
 void GetMaxMultiRes()
 {
 	int stuNum = 0;
@@ -686,14 +712,41 @@ void GetMaxSum()
 	cout << maxSum;
 }
 
-//推箱子
-void PushBox()
-{
-	int N, M;
-	vector<vector<int>> map;
-}
+//typedef pair<int, int> pos;
+//
+//int N, M;
+//pos playerPos;
+//pos boxPos;
+//pos destPos;
+//
+//vector<vector<int>> map;
+//
+//int GetMinPath(int i, int j)
+//{
+//	//if(i>)
+//	return 0;
+//}
+//
+//
+////推箱子
+//void PushBox()
+//{
+//	cin >> N >> M;
+//	vector<vector<int>> map (N, vector<int>(M));
+//	for (int i = 0; i < N; ++i)
+//		for (int j = 0; j < M; ++j)
+//		{
+//			cin >> map[i][j];
+//			if (map[i][j] == 'X')
+//				playerPos = pos(i, j);
+//			if (map[i][j] == '@')
+//				destPos = pos(i, j);
+//			if (map[i][j] == '*')
+//				boxPos = pos(i, j);
+//		}
+//}
 
-void fun_10()
+void fun_11()
 {
 	int* a = 0;
 	a += 6;
@@ -707,6 +760,7 @@ struct AlignTest
 	int b;
 	char c[9];
 };
+
 
 int main()
 {
@@ -794,7 +848,65 @@ int main()
 //	cout << *(++numsPtr) << endl;
 	//GetMaxMultiRes();
 	//EnCodeString();
-	GetMaxSum();
+	//GetMaxSum();
+	//fun_10();
+
+	/*int num = 2;
+	void* arg = (void*)(&num);
+
+	int b = 0; 
+	b += num++;
+	cout << b << endl;
+
+	b = num++;
+	cout << b << endl;*/
+
+	typedef pair<int, int> pos;
+	pos playerPos;
+	int npcNum = 0;
+	string npcPos_str;
+	cin >> playerPos.first >> playerPos.second;
+	cin >> npcNum;
+	cin >> npcPos_str;
+	npcPos_str += ',';
+	vector<pos> npcPos(npcNum,pos(0,0));
+	int dotIndex = 0;
+	int fastNpc = 0;
+	int minDistance = 10000000;
+	for (int i = 0; i < npcNum; ++i)
+	{
+		int tmp = 0;
+		tmp = npcPos_str.find(',', dotIndex);
+		int posX = 0;
+		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posX);
+		
+		dotIndex = tmp + 1;
+		tmp = npcPos_str.find(',', dotIndex);
+		int posY = 0;
+		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posY);
+		dotIndex = tmp + 1;
+		npcPos[i].first = posX;
+		npcPos[i].second = posY;
+
+		int tmpDis = abs(posX - playerPos.first)*abs(posX - playerPos.first) + abs(posY - playerPos.second)*abs(posY - playerPos.second);
+		if (tmpDis < minDistance)
+		{
+			minDistance = tmpDis;
+			fastNpc = i;
+		}
+	}
+
+	cout << "(" << npcPos[fastNpc].first << "," << npcPos[fastNpc].second << ")";
+
+	//int n, K;
+	//cin >> n >> K;
+
+	//int curMin = 0;
+
+	//int a, b;
+	//char c;
+	//cin >> a >> c >> b;
+	//cout << a << " " << b << endl;
 
 	system("pause");
 	//getchar();
