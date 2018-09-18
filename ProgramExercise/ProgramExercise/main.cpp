@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <intsafe.h>
 #include <utility>
+#include <map>
 
 
 using namespace std;
@@ -745,6 +746,145 @@ void GetMaxSum()
 //				boxPos = pos(i, j);
 //		}
 //}
+//
+
+// 多个整数组成最大整数
+bool stringSort(string a, string b)
+{
+	if (a + b >= b + a)return true;
+	else return false;
+}
+
+void maxNumberFromStrings()
+{
+	int numCounts = 0;
+	char space;
+	while (cin >> numCounts)
+	{
+		vector<string> strs(numCounts);
+		for (int i = 0; i < numCounts; ++i)
+		{
+			int num = 0;
+			cin >> num;
+			//这里不需要检测空格，空格会自动跳过
+			/*if (i != numCounts - 1)
+				cin >> space;*/
+
+			strs[i] = to_string(num);
+		}
+
+		sort(strs.begin(), strs.end(), stringSort);
+
+		string tmp;
+		for (auto it : strs)
+		{
+			tmp += it;
+		}
+		cout << tmp;
+	}
+}
+
+int getTreeHeightImpl(int father, int index, vector<pair<int, int>>& nodes)
+{
+	int size = nodes.size();
+	int left = 0, right = 0;
+	for (int i = index; i < size; ++i)
+	{
+		if (nodes[i].first == father)
+		{
+			left = getTreeHeightImpl(nodes[i].second, i, nodes);
+			if (i + 1 < size && nodes[i + 1].first == father)
+			{
+				right = getTreeHeightImpl(nodes[i + 1].second, i + 1, nodes);
+			}
+			break;
+		}
+	}
+
+	return max(left, right) + 1;
+}
+//求树的高度
+void getTreeHeight()
+{
+	typedef pair<int, int> node;
+	int treeNodes = 0;
+	cin >> treeNodes;
+	vector<node> allNodes(treeNodes);
+
+	for (int i = 0; i < treeNodes - 1; ++i)
+		cin >> allNodes[i].first >> allNodes[i].second;
+
+	cout << getTreeHeightImpl(0, 0, allNodes);
+}
+
+void reverseString()
+{
+	string str, tmp, ret;
+	while (cin >> str)
+	{
+		ret = ' ' + str + ret;
+
+
+		if (getchar() == '\n')break;
+		//cout << "loop";
+	}
+
+	ret.erase(0,1);
+	/*for (int i = 0; i < str.length(); ++i)
+	{
+		if (str[i] == ' ')
+		{
+			ret = ' ' + tmp + ret;
+			tmp.clear();
+			continue;
+		}
+		
+		tmp += str[i];
+	}
+
+	if (tmp.size())ret = tmp + ret;*/
+
+	cout << ret;
+}
+
+//计算分身
+void getNumber()
+{
+	int T;
+	while (cin >> T)
+	{
+		string input;
+		while (T--)
+		{
+			cin >> input;
+			map<char, size_t> help;
+			for (auto& t : input)
+			{
+				help[t] += 1;
+			}
+			vector<size_t> count(10);
+			count[0] = help['Z'];            //ZERO
+			count[2] = help['W'];            //TWO
+			count[4] = help['U'];            //FOUR
+			count[1] = help['O'] - count[0] - count[2] - count[4];     //ONE
+			count[6] = help['X'];            //SIX
+			count[8] = help['G'];            //EIGHT
+			count[3] = help['T'] - count[2] - count[8];        //TRHEE
+			count[5] = help['F'] - count[4];            //FIVE
+			count[7] = help['V'] - count[5];            //SEVEN
+			count[9] = help['I'] - count[6] - count[5] - count[8];   //NINE          //NINE
+			vector<size_t> numsBefore(10);
+			for (size_t i = 0; i < 10; i++)
+				numsBefore[(i + 2) % 10] = count[i];//号码还原
+			for (size_t i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < numsBefore[i]; j++)
+					cout << i;
+			}
+			cout << endl;
+		}
+	}
+}
 
 void fun_11()
 {
@@ -761,91 +901,103 @@ struct AlignTest
 	char c[9];
 };
 
+class D
+{
+public:
+	D()
+	{
+
+	}
+
+	static int b;
+};
+
+int D::b = 0;
 
 int main()
 {
-//	Solution A;
-//	std::string str = "123486";
-//	auto iter = str.end();
-//	int* res = new int(5);
-//	int* a = (int*)malloc(sizeof(int));
-//	*a = 10;
-//	char charStr[20] = "aaa";
-//	char charPat[20] = "ab*a";
-//	char charNum[] = "123.45e+6";
-//
-//	cout << A.LastRemaining_Solution(5, 2) << endl;
-//	cout << A.Add(100,50) << endl;
-//	cout << A.StrToInt(str)<< endl;
-//	cout << *res << endl;
-//	cout << *a << endl;
-//
-//	fun_0();
-//	fun_1();
-//	fun_2();
-//	fun_4();
-//	
-//	cout << endl;
-//	cout << strlen(charStr) << endl;
-//
-//	if (A.match(charStr, charPat))
-//		cout << "匹配成功" << endl;
-//	else cout << "匹配失败" << endl;
-//
-//	if (A.isNumeric(charNum))
-//		cout << "是数字" << endl;
-//	else cout << "不是数字" << endl << endl;
-//
-//	delete res;
-//	free(a);
-//
-//	/*int m, n;
-//	cin >> n >> m;
-//	if (n<2 || n>1e10)return;
-//	if (m < 1)return;
-//	if (n % (2 * m))return;
-//
-//	int couples = n / (2 * m);
-//	cout << couples * m * m;*/
-//
-//	//vector<vector<int>> vec;
-//	int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
-//	vector<int> numVec(numbers, numbers + 10);
-//	numVec.push_back(2);
-//	for (auto it : numVec)
-//	{
-//		cout << it << ' ';
-//	}
-//	cout << endl;
-//
-//	fun_8();
-//	fun_10();
-//
-//	cout << GlobalVal << endl;
-//
-//	string sortStr = "BCDAGF";
-//	sort(sortStr.begin(), sortStr.end());
-//
-//	cout << sortStr << endl;
-//	cout << sizeof(AlignTest) << endl;
-//
-//	int num = 10;
-//	int* p = &num;
-//	*p = 5;
-//	cout << *p << endl;
-//
-//	//char str2[] = { 'a','b','c','d' };  //错误，由于没有'\0'结束符
-//	char str3[] = { 'a','b','c','d','\0' };  //正确
-//	char str4[] = "abcd";                 //正确，直接申请的字符串，不需要 '\0'
-//	char* str5 = str4;
-//	//str3 = str5;           //错误，此时str3是个常量，不能被更改，但是它所指的值是可以改变的
-//	str5[1] = 'B';
-//	cout << ++str5 << endl;  //正确
-//	//cout << ++str4 << endl;  //错误
-//	int nums[] = { 1,2,3,4,5 };
-//	int* numsPtr = nums;
-//	cout << *nums << endl;
-//	cout << *(++numsPtr) << endl;
+	//Solution A;
+	//std::string str = "123486";
+	//auto iter = str.end();
+	//int* res = new int(5);
+	//int* a = (int*)malloc(sizeof(int));
+	//*a = 10;
+	//char charStr[20] = "aaa";
+	//char charPat[20] = "ab*a";
+	//char charNum[] = "123.45e+6";
+
+	//cout << A.LastRemaining_Solution(5, 2) << endl;
+	//cout << A.Add(100,50) << endl;
+	//cout << A.StrToInt(str)<< endl;
+	//cout << *res << endl;
+	//cout << *a << endl;
+
+	//fun_0();
+	//fun_1();
+	//fun_2();
+	//fun_4();
+	//
+	//cout << endl;
+	//cout << strlen(charStr) << endl;
+
+	//if (A.match(charStr, charPat))
+	//	cout << "匹配成功" << endl;
+	//else cout << "匹配失败" << endl;
+
+	//if (A.isNumeric(charNum))
+	//	cout << "是数字" << endl;
+	//else cout << "不是数字" << endl << endl;
+
+	//delete res;
+	//free(a);
+
+	///*int m, n;
+	//cin >> n >> m;
+	//if (n<2 || n>1e10)return;
+	//if (m < 1)return;
+	//if (n % (2 * m))return;
+
+	//int couples = n / (2 * m);
+	//cout << couples * m * m;*/
+
+	////vector<vector<int>> vec;
+	//int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	//vector<int> numVec(numbers, numbers + 10);
+	//numVec.push_back(2);
+	//for (auto it : numVec)
+	//{
+	//	cout << it << ' ';
+	//}
+	//cout << endl;
+
+	//fun_8();
+	//fun_10();
+
+	//cout << GlobalVal << endl;
+
+	//string sortStr = "BCDAGF";
+	//sort(sortStr.begin(), sortStr.end());
+
+	//cout << sortStr << endl;
+	//cout << sizeof(AlignTest) << endl;
+
+	//int num = 10;
+	//int* p = &num;
+	//*p = 5;
+	//cout << *p << endl;
+
+	////char str2[] = { 'a','b','c','d' };  //错误，由于没有'\0'结束符
+	//char str3[] = { 'a','b','c','d','\0' };  //正确
+	//char str4[] = "abcd";                 //正确，直接申请的字符串，不需要 '\0'
+	//char* str5 = str4;
+	////str3 = str5;           //错误，此时str3是个常量，不能被更改，但是它所指的值是可以改变的
+	//str5[1] = 'B';
+	//cout << ++str5 << endl;  //正确
+	////cout << ++str4 << endl;  //错误
+	//int nums[] = { 1,2,3,4,5 };
+	//int* numsPtr = nums;
+	//cout << *nums << endl;
+	//cout << *(++numsPtr) << endl;
 	//GetMaxMultiRes();
 	//EnCodeString();
 	//GetMaxSum();
@@ -861,7 +1013,8 @@ int main()
 	b = num++;
 	cout << b << endl;*/
 
-	typedef pair<int, int> pos;
+	//畅游笔试题
+	/*typedef pair<int, int> pos;
 	pos playerPos;
 	int npcNum = 0;
 	string npcPos_str;
@@ -897,6 +1050,7 @@ int main()
 	}
 
 	cout << "(" << npcPos[fastNpc].first << "," << npcPos[fastNpc].second << ")";
+*/
 
 	//int n, K;
 	//cin >> n >> K;
@@ -908,7 +1062,80 @@ int main()
 	//cin >> a >> c >> b;
 	//cout << a << " " << b << endl;
 
+	//maxNumberFromStrings();
+
+	//getTreeHeight();
+	//reverseString();
+	
+	class Test
+	{
+	public:
+		int a = 0;
+	private:
+		int b = 1;
+	};
+
+	class VirtualBaseClass
+	{
+	public:
+		virtual void fun() {};
+	};
+
+	class VirtualDeriveClass :VirtualBaseClass
+	{
+	public:
+		virtual void fun() {};
+	};
+
+	class A
+	{
+	public:
+		int a = 1;
+	};
+
+	class B
+	{
+	public:
+		int b = 2;
+	};
+
+	class C :public A, public B
+	{
+
+	};
+
+	
+	/*int num = -123559;
+	for (int i = 0; i < sizeof(int) * 8; ++i)
+	{
+		int tmp = num >> i;
+		tmp &= 1;
+		cout << tmp;
+	}
+	cout << endl;
+
+	num = 123559;
+	for (int i = 0; i < sizeof(int) * 8; ++i)
+	{
+		int tmp = num >> i;
+		tmp &= 1;
+		cout << tmp;
+	}
+	cout << endl;
+	cout << sizeof(string) << endl;*/
+
+	C c;
+	A* a = (A*)(&c);
+	cout << a->a << endl;
+
+	cout << sizeof(VirtualDeriveClass) << endl;
+	/*Test A;
+	Test* B = &A;
+	int* tmp = (int*)B;
+	tmp++;
+	*tmp += 2;
+	cout << *tmp << endl;*/
+
 	system("pause");
-	//getchar();
 	return 0;
 }
