@@ -11,6 +11,7 @@
 #include <intsafe.h>
 #include <utility>
 #include <map>
+#include <cmath>
 
 
 using namespace std;
@@ -875,7 +876,7 @@ void getNumber()
 			count[9] = help['I'] - count[6] - count[5] - count[8];   //NINE          //NINE
 			vector<size_t> numsBefore(10);
 			for (size_t i = 0; i < 10; i++)
-				numsBefore[(i + 2) % 10] = count[i];//号码还原
+				numsBefore[(i + 2) % 10] = count[i];  //号码还原
 			for (size_t i = 0; i < 10; i++)
 			{
 				for (int j = 0; j < numsBefore[i]; j++)
@@ -885,6 +886,136 @@ void getNumber()
 		}
 	}
 }
+
+void DaffodilNumber()
+{
+	int start = 0, end = 0;
+	vector<int> nums;
+
+	while (cin >> start >> end)
+	{
+		for (int i = start; i <= end; ++i)
+		{
+			int tmp = i, res = 0;
+			while (tmp)
+			{
+				int num = tmp % 10;
+				tmp /= 10;
+				res += num * num * num;
+			}
+
+			if (res == i)
+				nums.push_back(i);
+		}
+
+		if (nums.empty())cout << "no" << endl;
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			if (i == nums.size() - 1)
+				cout << nums[i] << endl;
+			else
+				cout << nums[i] << ' ';
+		}
+
+		nums.clear();
+	}
+}
+
+void GetSqrtNum()
+{
+	int n = 0, m = 0;
+
+	while (cin >> n >> m)
+	{
+		float sum = n;
+		float tmp = n;
+		m -= 1;
+		while (m)
+		{
+			tmp = sqrt(tmp);
+			sum += tmp;
+			m--;
+		}
+
+		//cout << sum;
+		printf("%.2f\n", sum);
+	}
+}
+
+//获取最少的跳跃次数
+int GetMinFeet(vector<int>& pilesRef, int index)
+{
+	if (index == 0)return 1;
+
+	int min = 10001;
+	for (int i = 0; i < index; ++i)
+	{
+		if (index - i == pilesRef[i])
+		{
+			int tmp = GetMinFeet(pilesRef, i);
+			if (tmp < min)
+				min = tmp;
+		}
+	}
+	return min + 1;
+}
+
+void CrossRiver()
+{
+	int N;   //桩的个数
+	cin >> N;
+	vector<int> piles(N);
+	for (int i = 0; i < N; ++i)
+		cin >> piles[i];
+
+	int min = 10001;
+	for (int i = 0; i < N; ++i)
+	{
+		if (piles[i] >= N - i)
+		{
+			int tmp = GetMinFeet(piles, i);
+			if (tmp < min)min = tmp;
+		}
+	}
+
+	if (min == 10001)cout << -1;
+	else cout << min;
+}
+
+//下面是过河的动态规划法
+
+int GetCount(vector<int>& num)
+{
+	int n = num.size();
+	vector<int> dp(n + 1, 10000);
+	dp[0] = 1;
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = i - 1; j >= 0; j--)
+		{
+			if (num[j] == 0)
+				continue;
+			if (j + num[j] >= i)
+				dp[i] = min(dp[i], dp[j] + 1);
+		}
+	}
+	if (dp[n] == 10000)
+		return -1;
+	else
+		return dp[n] - 1;
+}
+
+//int main()
+//{
+//	int N = 0;
+//	cin >> N;
+//	vector<int> num(N, 0);
+//	for (int i = 0; i < N; i++)
+//		cin >> num[i];
+//	cout << GetCount(num) << endl;
+//	return 0;
+//}
 
 void fun_11()
 {
@@ -1104,7 +1235,6 @@ int main()
 
 	};
 
-	
 	/*int num = -123559;
 	for (int i = 0; i < sizeof(int) * 8; ++i)
 	{
@@ -1136,6 +1266,9 @@ int main()
 	*tmp += 2;
 	cout << *tmp << endl;*/
 
+	//DaffodilNumber();
+	//GetSqrtNum();
+	CrossRiver();
 	system("pause");
 	return 0;
 }
