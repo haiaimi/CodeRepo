@@ -1040,6 +1040,17 @@ public:
 
 	}
 
+	int GetStaticNum()
+	{
+		return b;
+	}
+
+	int GetNum()
+	{
+		return a;
+	}
+
+	int a = 5;
 	static int b;
 };
 
@@ -1222,6 +1233,7 @@ int main()
 	{
 	public:
 		int a = 1;
+
 	};
 
 	class B
@@ -1253,6 +1265,13 @@ int main()
 	}
 	cout << endl;
 	cout << sizeof(string) << endl;*/
+
+	D* d = nullptr;
+	cout << d->GetStaticNum() << endl;
+	cout << d->GetNum() << endl;
+
+	string str = "abced";
+	cout << str.substr(1) << endl;
 
 	C c;
 	A* a = (A*)(&c);
