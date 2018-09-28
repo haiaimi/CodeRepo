@@ -163,6 +163,39 @@ public:
 
 		return num.back();
 	}
+
+
+	//Éú³É¶þ²æÊ÷
+	typedef vector<TreeNode*> Trees;
+	vector<TreeNode*> generateTrees(int n) {
+		if (n == 0)return Trees();
+		return generateTreesImpl(1, n);
+	}
+
+	Trees generateTreesImpl(int start, int end)
+	{
+		if (start > end)return Trees(1, NULL);
+		if (start == end)return Trees(1, new TreeNode(start));
+
+		Trees tmp;
+		for (int i = start; i <= end; ++i)
+		{
+			Trees left = generateTreesImpl(start, i - 1);
+			Trees right = generateTreesImpl(i + 1, end);
+
+			for (int j = 0; j < left.size(); ++j)
+			{
+				for (int k = 0; k < right.size(); ++k)
+				{
+					TreeNode* node = new TreeNode(i);
+					node->left = left[j];
+					node->right = right[k];
+					tmp.push_back(node);
+				}
+			}
+		}
+		return tmp;
+	}
 };
 
 #pragma region BFBRT
