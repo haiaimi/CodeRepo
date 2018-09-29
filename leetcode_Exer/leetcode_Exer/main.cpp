@@ -196,6 +196,39 @@ public:
 		}
 		return tmp;
 	}
+
+	//½»´í×Ö·û´® https://leetcode-cn.com/problems/interleaving-string/
+	//µÝ¹é·¨  leetcode³¬Ê±
+	bool isInterleave_rec(string s1, string s2, string s3) {
+		if (s1.length() + s2.length() != s3.length())return false;
+
+		int l = 0, r = 0, c = 0;
+		while (1)
+		{
+			cout << c << endl;
+			if (c == s3.length())return true;
+			if (s3[c] == s1[l] && s3[c] != s2[r])
+			{
+				l++; c++; continue;
+			}
+			if (s3[c] == s2[r] && s3[c] != s1[l])
+			{
+				r++; c++; continue;
+			}
+			if (s3[c] == s2[r] && s3[c] == s1[l])
+			{
+				return isInterleave_rec(s1.substr(l + 1), s2.substr(r), s3.substr(c + 1)) || isInterleave_rec(s1.substr(l), s2.substr(r + 1), s3.substr(c + 1));
+			}
+
+			return false;
+		}
+	}
+
+	bool isInterleave(string s1, string s2, string s3)
+	{
+
+		return false;
+	}
 };
 
 #pragma region BFBRT
@@ -275,14 +308,14 @@ int BFPRT(int a[], int l, int r, int k)
 
 	int m = i - l + 1;
 	if (m == k) return a[i];
-	if (m > k)  return BFPRT(a, l, i - 1, k);
+	if (m > k) return BFPRT(a, l, i - 1, k);
 	return BFPRT(a, i + 1, r, k - m);
 }
 
 #pragma endregion
 
 int main()
-{
+{/*
 	int n, k;
 	scanf_s("%d", &n);
 	for (int i = 0; i < n; i++)
@@ -294,7 +327,18 @@ int main()
 	for (int i = 0; i < n; i++)
 		printf_s("%d ", a[i]);
 
-	puts("");
+	puts("");*/
+	
+	Solution A;
+	bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
+		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
+		"babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab");
+
+	if (res)cout << "true";
+	else cout << "false";
+
+	string str = "abcdefg";
+	cout << str.substr(7).length() << endl;
 	system("pause");
 
 	return 0;
