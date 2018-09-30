@@ -13,6 +13,11 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
  
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
 
 class Solution {
 public:
@@ -164,7 +169,6 @@ public:
 		return num.back();
 	}
 
-
 	//生成二叉树
 	typedef vector<TreeNode*> Trees;
 	vector<TreeNode*> generateTrees(int n) {
@@ -228,6 +232,32 @@ public:
 	{
 
 		return false;
+	}
+
+	//两数相加 https://leetcode-cn.com/problems/add-two-numbers/
+	ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+		bool bcarry = false;
+		ListNode* ret = NULL, *tmp_node;
+
+		while (l1 || l2)
+		{
+			int tmp = 0;
+			if (l1 == NULL)
+				tmp = bcarry ? l2->val + 1 : l2->val;
+			else if (l2 == NULL)
+				tmp = bcarry ? l1->val + 1 : l1->val;
+			else
+				tmp = bcarry ? l1->val + l2->val + 1 : l1->val + l2->val;
+			bcarry = tmp / 10;
+			if (ret == NULL) { ret = new ListNode(tmp % 10); tmp_node = ret; }
+			else { ret->next = new ListNode(tmp % 10); ret = ret->next; }
+
+			if (l1)l1 = l1->next;
+			if (l2)l2 = l2->next;
+		}
+
+		if (bcarry)ret->next = new ListNode(1);
+		return tmp_node;
 	}
 };
 
@@ -330,12 +360,14 @@ int main()
 	puts("");*/
 	
 	Solution A;
-	bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
+	/*bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
 		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
 		"babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab");
 
 	if (res)cout << "true";
-	else cout << "false";
+	else cout << "false";*/
+
+	cout << A.numDecodings("101") << endl;
 
 	string str = "abcdefg";
 	cout << str.substr(7).length() << endl;
