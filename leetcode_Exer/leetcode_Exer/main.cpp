@@ -259,6 +259,28 @@ public:
 		if (bcarry)ret->next = new ListNode(1);
 		return tmp_node;
 	}
+
+	//无重复字符的最长字串 https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+	//动态规划
+	int lengthOfLongestSubstring(string s) {
+		int len = s.length();
+
+		int l = 0, maxlen = 0;
+		for (int i = 0; i < len; ++i)
+		{
+			for (int j = l; j < i; ++j)
+			{
+				if (s[i] == s[j])
+				{
+					l = j + 1;
+					break;
+				}
+			}
+			maxlen = max(maxlen, i - l + 1);
+		}
+
+		return maxlen;
+	}
 };
 
 #pragma region BFBRT
