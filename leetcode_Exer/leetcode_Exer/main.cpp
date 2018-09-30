@@ -281,6 +281,25 @@ public:
 
 		return maxlen;
 	}
+
+	//两个排序数组的中位数 https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
+	double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+		int len = nums1.size() + nums2.size();
+		int l = 0, r = 0, pre, cur;
+		while (1)
+		{
+			if (l + r == 1 + len / 2)
+			{
+				if (len & 1)return (double)cur;
+				else return ((double)cur + (double)pre) / 2;
+			}
+			if (l < nums1.size() && r < nums2.size())
+				if (nums1[l] <= nums2[r]) { pre = cur; cur = nums1[l]; l++; continue; }
+				else { pre = cur; cur = nums2[r]; r++; continue; }
+			if (l < nums1.size() && r >= nums2.size()) { pre = cur; cur = nums1[l]; l++; continue; }
+			if (l >= nums1.size() && r < nums2.size()) { pre = cur; cur = nums2[r]; r++; continue; }
+		}
+	}
 };
 
 #pragma region BFBRT
