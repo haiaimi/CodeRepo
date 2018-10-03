@@ -309,6 +309,7 @@ public:
 		string ret;
 		reverse(revStr.begin(), revStr.end());
 
+
 		int maxlen = 0, curlen = 0;
 
 		for (int i = 0; i < s.length(); ++i)
@@ -329,6 +330,49 @@ public:
 					curlen = 0;
 					tmp = i;
 					j = ++tmpj;
+				}
+			}
+		}
+		return ret;
+	}
+
+	//动态规划法
+	//有两种情况，1、中间为单个字符 2、中间为2个字符
+	string longestPalindrome_dp(string s)
+	{
+		int maxlen = 0;
+		string ret;
+		for (int i = 1; i < s.length(); ++i)
+		{
+			int left, right, curlen;
+			//中间为1个字符的情况
+			left = i - 1;
+			right = i + 1;
+			while (left >= 0 && right < s.length() && s[left] == s[right])
+			{
+				left--; right++;
+			}
+			curlen = right - left - 1;
+			if (curlen > maxlen)
+			{
+				ret = s.substr(left + 1, curlen);
+				maxlen = curlen;
+			}
+
+			//中间为两个字符
+			if (s[i] == s[i - 1])
+			{
+				left = i - 2;
+				right = i + 1;
+				while (left >= 0 && right < s.length() && s[left] == s[right])
+				{
+					left--; right++;
+				}
+				curlen = right - left - 1;
+				if (curlen > maxlen)
+				{
+					ret = s.substr(left + 1, curlen);
+					maxlen = curlen;
 				}
 			}
 		}
@@ -443,7 +487,7 @@ int main()
 	else cout << "false";*/
 
 	//cout << A.numDecodings("101") << endl;
-	cout << A.longestPalindrome("aaabaaaa") << endl;
+	cout << A.longestPalindrome_dp("ccc") << endl;
 
 	string str = "cbba";
 	cout << str.substr(1, 2) << endl;
