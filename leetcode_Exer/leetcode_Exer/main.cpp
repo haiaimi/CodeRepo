@@ -300,6 +300,40 @@ public:
 			if (l >= nums1.size() && r < nums2.size()) { pre = cur; cur = nums2[r]; r++; continue; }
 		}
 	}
+
+	//最长回文子串 https://leetcode-cn.com/problems/longest-palindromic-substring/
+	//常规暴力解法 leetcode超时
+	string longestPalindrome(string s) {
+		if (s.length() == 1)return s;
+		string revStr = s;
+		string ret;
+		reverse(revStr.begin(), revStr.end());
+
+		int maxlen = 0, curlen = 0;
+
+		for (int i = 0; i < s.length(); ++i)
+		{
+			int tmp = i, tmpj = -1;
+			for (int j = 0; j < s.length(); ++j)
+			{
+				int tmp2 = tmp;
+				if (tmp < s.length() && s[tmp] == revStr[j])
+				{
+					curlen++;
+					tmp++;
+				}
+				if (j == (s.length() - 1)||tmp2 == (s.length() - 1) || s[tmp2] != revStr[j])
+				{
+					if (((j == s.length() - 1) || (tmp2 == s.length() - 1)) && s[tmp2]==revStr[j])j += 1;
+					if (s.length() - j == i && curlen >= maxlen) { ret = s.substr(i, curlen < 1 ? 1 : curlen); maxlen = curlen; }
+					curlen = 0;
+					tmp = i;
+					j = ++tmpj;
+				}
+			}
+		}
+		return ret;
+	}
 };
 
 #pragma region BFBRT
@@ -408,10 +442,19 @@ int main()
 	if (res)cout << "true";
 	else cout << "false";*/
 
-	cout << A.numDecodings("101") << endl;
+	//cout << A.numDecodings("101") << endl;
+	cout << A.longestPalindrome("aaabaaaa") << endl;
 
-	string str = "abcdefg";
-	cout << str.substr(7).length() << endl;
+	string str = "cbba";
+	cout << str.substr(1, 2) << endl;
+	int num = 1;
+	int num2 = 1;
+	num2 *= ++num;
+	//num2 = num++;
+	cout << num2 << endl;
+	//string str = "abcdefg";
+	//reverse(str.begin(), str.end());
+	cout << str<< endl;
 	system("pause");
 
 	return 0;
