@@ -417,6 +417,33 @@ public:
 		if (x < 0)res = -res;
 		return res;
 	}
+
+	//字符串转整数 (atoi) https://leetcode-cn.com/problems/string-to-integer-atoi/
+	//这个函数没有考虑到e的表示法
+	int myAtoi(string str) {
+		if (str.length() == 0)return 0;
+		int p = 0;
+		while (str[p] == ' ')
+			p++;
+		if (p == str.length())return 0;
+		if (str[p] != '-'&&str[p] != '+' && (str[p]<'0' || str[p]>'9'))return 0;
+
+		bool bPos = true;
+		if (str[p] == '-') { bPos = false; p++; }
+		if (str[p] == '+'&&bPos)p++;
+
+		int num = 0;
+		while (str[p] >= '0'&&str[p] <= '9')
+		{
+			int add = str[p] - '0';
+			if (num > INT_MAX / 10 || (num == INT_MAX / 10 && add > 7))
+				return bPos ? INT_MAX : INT_MIN;
+			num = num * 10 + add;
+			p++;
+		}
+
+		return bPos ? num : -num;
+	}
 };
 
 #pragma region BFBRT
