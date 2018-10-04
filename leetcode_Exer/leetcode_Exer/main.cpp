@@ -307,8 +307,8 @@ public:
 		if (s.length() == 1)return s;
 		string revStr = s;
 		string ret;
+		using std::reverse;   //防止下面调用与类成员函数发生冲突
 		reverse(revStr.begin(), revStr.end());
-
 
 		int maxlen = 0, curlen = 0;
 
@@ -526,8 +526,9 @@ int main()
 	else cout << "false";*/
 
 	//cout << A.numDecodings("101") << endl;
-	cout << A.longestPalindrome_dp("ccc") << endl;
+	//cout << A.longestPalindrome_dp("ccc") << endl;
 
+	cout << atoi("b 123c123") << endl;
 	string str = "cbba";
 	cout << str.substr(1, 2) << endl;
 	int num = 1;
