@@ -399,6 +399,24 @@ public:
 		}
 		return str;
 	}
+
+	//反转整数 https://leetcode-cn.com/problems/reverse-integer/
+	int reverse(int x) {
+		int tmp = abs(x);
+		int res = 0;
+		while (tmp)
+		{
+			int tmp2 = tmp % 10;
+			if (res > (0x7fffffff - tmp2) / 10)return 0;   //此处可以改进更精确，如下
+			//if (res > INT_MAX / 10 || (res == INT_MAX / 10 && tmp2 > 7)) return 0;//正数情况
+			//if (res < INT_MIN / 10 || (res == INT_MIN / 10 && tmp2 < -8)) return 0;//负数情况
+			res = res * 10 + tmp2;
+			tmp /= 10;
+		}
+
+		if (x < 0)res = -res;
+		return res;
+	}
 };
 
 #pragma region BFBRT
