@@ -378,6 +378,27 @@ public:
 		}
 		return ret;
 	}
+
+	//Z字形变换 https://leetcode-cn.com/problems/zigzag-conversion/
+	//寻找其中的变化规律即可
+	string convert(string s, int numRows) {
+		int pernum = 2 * numRows - 2;
+		if (numRows <= 1)return s;
+
+		string str;
+		for (int i = 0; i < numRows; ++i)
+		{
+			for (int j = 0; j < s.length(); j += pernum)
+			{
+				if (j + i < s.length())
+					str.push_back(s[j + i]);
+
+				if (i != 0 && i != numRows - 1 && j + pernum - i < s.length())
+					str.push_back(s[j + pernum - i]);
+			}
+		}
+		return str;
+	}
 };
 
 #pragma region BFBRT
@@ -499,6 +520,9 @@ int main()
 	//string str = "abcdefg";
 	//reverse(str.begin(), str.end());
 	cout << str<< endl;
+
+	char a[10], *p = a;
+	
 	system("pause");
 
 	return 0;
