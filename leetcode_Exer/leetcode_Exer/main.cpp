@@ -21,7 +21,7 @@ struct ListNode {
 
 class Solution {
 public:
-	//求最长有效括号匹配
+	//求最长有效括号匹配 https://leetcode-cn.com/problems/longest-valid-parentheses/
 	int longestValidParentheses(string s) {
 		int size = s.size();
 		int counts = 0;
@@ -49,7 +49,7 @@ public:
 		return counts * 2;
 	}
 
-	//最长子序和
+	//最长子序和 https://leetcode-cn.com/problems/maximum-subarray/
 	int maxSubArray(vector<int>& nums) {
 		int curMax = nums[0];
 		int preSum = nums[0];
@@ -64,7 +64,7 @@ public:
 
 	}
 
-	//求不同路径数，从网格左上角到右小角的路径数
+	//求不同路径数，从网格左上角到右小角的路径数 https://leetcode-cn.com/problems/unique-paths/
 	int uniquePaths(int m, int n)
 	{
 		//动态规划法
@@ -88,7 +88,7 @@ public:
 		//递归方法也可以
 	}
 
-	//求不同路径数，从网格左上角到右小角的路径数（遇到障碍需要绕过），障碍处为1
+	//求不同路径数，从网格左上角到右小角的路径数（遇到障碍需要绕过），障碍处为1 https://leetcode-cn.com/problems/unique-paths-ii/
 	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
 		int n = obstacleGrid[0].size();
 		int m = obstacleGrid.size();
@@ -117,7 +117,7 @@ public:
 		return map[m - 1][n - 1];
 	}
 
-	//求网格中最短路径（左上到右下）
+	//求网格中最短路径（左上到右下）https://leetcode-cn.com/problems/minimum-path-sum/
 	int minPathSum(vector<vector<int>>& grid) {
 		//动态规划
 		int m = grid.size();
@@ -144,7 +144,7 @@ public:
 		return map[m - 1][n - 1];
 	}
 
-	//获取编码的个数 详细题目 https://leetcode-cn.com/problems/decode-ways/
+	//解码方法  https://leetcode-cn.com/problems/decode-ways/
 	int numDecodings(string s) {
 		vector<int> allNum(s.length(), 0);
 		vector<int> num(s.length(), 0);
@@ -169,7 +169,7 @@ public:
 		return num.back();
 	}
 
-	//生成二叉树
+	//不同的二叉搜索树II https://leetcode-cn.com/problems/unique-binary-search-trees-ii/
 	typedef vector<TreeNode*> Trees;
 	vector<TreeNode*> generateTrees(int n) {
 		if (n == 0)return Trees();
@@ -486,6 +486,51 @@ public:
 		}
 		return maxarea;
 	}
+
+	//整数转罗马数字 https://leetcode-cn.com/problems/integer-to-roman/
+	//由于输入数字小于3999所以就进行每一位的处理，没有使用循环
+	string intToRoman(int num) {
+		string res = "";
+
+		int tmp = num / 1000;
+		num = num % 1000;
+		for (int i = 0; i < tmp; ++i)
+			res.push_back('M');
+
+		tmp = num / 100;
+		num = num % 100;
+		if (tmp == 4)res.append("CD");
+		else if (tmp == 9)res.append("CM");
+		else
+		{
+			if (tmp >= 5)res.push_back('D');
+			for (int i = 0; i < tmp % 5; ++i)
+				res.push_back('C');
+		}
+
+		tmp = num / 10;
+		num = num % 10;
+		if (tmp == 4)res.append("XL");
+		else if (tmp == 9)res.append("XC");
+		else
+		{
+			if (tmp >= 5)res.push_back('L');
+			for (int i = 0; i < tmp % 5; ++i)
+				res.push_back('X');
+		}
+
+		tmp = num;
+		if (tmp == 4)res.append("IV");
+		else if (tmp == 9)res.append("IX");
+		else
+		{
+			if (tmp >= 5)res.push_back('V');
+			for (int i = 0; i < tmp % 5; ++i)
+				res.push_back('I');
+		}
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
@@ -598,6 +643,8 @@ int main()
 	//cout << A.longestPalindrome_dp("ccc") << endl;
 
 	string str = "cbba";
+	str.append("NC");
+	cout << str << endl;
 	string str1 = str, str2 = str1;
 	cout << str2 << endl;
 	//cout << str.substr(1, 2) << endl;
