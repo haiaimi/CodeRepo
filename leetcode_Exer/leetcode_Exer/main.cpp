@@ -471,6 +471,21 @@ public:
 
 		return num == tmp;
 	}
+
+	//盛水最多的容器 https://leetcode-cn.com/problems/container-with-most-water/description/
+	//可以用暴力法O(n2)，最佳方法的双指针方法，O(n)
+	int maxArea(vector<int>& height) {
+		int l = 0, r = height.size() - 1;  //左右两个指针
+		int maxarea = 0;
+		while (r > l)
+		{
+			int cur = min(height[l], height[r])*(r - l);
+			maxarea = max(cur, maxarea);
+			if (height[l] <= height[r])l++;
+			else r--;
+		}
+		return maxarea;
+	}
 };
 
 #pragma region BFBRT
