@@ -444,6 +444,33 @@ public:
 
 		return bPos ? num : -num;
 	}
+
+	//回文数 https://leetcode-cn.com/problems/palindrome-number/
+	//下面的方法是通过翻转数字来比较
+	bool isPalindrome(int x) {
+		if (x < 0)return false;
+		int tmp = x;
+		int res = 0;
+		while (tmp)
+		{
+			int tmp2 = tmp % 10;
+			res = res * 10 + tmp2;
+			tmp /= 10;
+		}
+
+		return res == x;
+	}
+
+	//下面是转换成字符串比较
+	bool isPalindrome_1(int x) {
+		if (x < 0)return false;
+
+		string num = to_string(x), tmp = num;
+		using std::reverse;
+		reverse(tmp.begin(), tmp.end());
+
+		return num == tmp;
+	}
 };
 
 #pragma region BFBRT
@@ -555,9 +582,10 @@ int main()
 	//cout << A.numDecodings("101") << endl;
 	//cout << A.longestPalindrome_dp("ccc") << endl;
 
-	cout << atoi("b 123c123") << endl;
 	string str = "cbba";
-	cout << str.substr(1, 2) << endl;
+	string str1 = str, str2 = str1;
+	cout << str2 << endl;
+	//cout << str.substr(1, 2) << endl;
 	int num = 1;
 	int num2 = 1;
 	num2 *= ++num;
