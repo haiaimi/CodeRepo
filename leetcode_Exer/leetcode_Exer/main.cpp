@@ -531,6 +531,38 @@ public:
 
 		return res;
 	}
+
+	//罗马数字转整数 https://leetcode-cn.com/problems/roman-to-integer/
+	int romanToInt(string s) {
+		int len = s.length();
+		int num = 0;
+
+		for (int i = len - 1; i >= 0; --i)
+		{
+			if (s[i] == 'V')num += 5;
+			if (s[i] == 'L')num += 50;
+			if (s[i] == 'D')num += 500;
+
+			if (s[i] == 'I')
+				if (i + 1 < len && (s[i + 1] == 'X' || s[i + 1] == 'V'))
+					num -= 1;
+				else num += 1;
+			if (s[i] == 'X')
+				if (i + 1 < len && (s[i + 1] == 'L' || s[i + 1] == 'C'))
+					num -= 10;
+				else num += 10;
+			if (s[i] == 'C')
+				if (i + 1 < len && (s[i + 1] == 'D' || s[i + 1] == 'M'))
+					num -= 100;
+				else num += 100;
+
+			if (s[i] == 'M')num += 1000;
+
+		}
+		return num;
+	}
+
+
 };
 
 #pragma region BFBRT
