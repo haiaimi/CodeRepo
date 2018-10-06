@@ -562,7 +562,26 @@ public:
 		return num;
 	}
 
+	//最长公共前缀 https://leetcode-cn.com/problems/longest-common-prefix/
+	string longestCommonPrefix(vector<string>& strs) {
+		int strnum = strs.size();
+		int pflen = 0;
+		if (strnum == 0)return "";
 
+		while (pflen < strs[0].length())
+		{
+			char tmp = strs[0][pflen];
+
+			for (int i = 1; i < strnum; ++i)
+			{
+				if (strs[i][pflen] == tmp && pflen < strs[i].length())
+					continue;
+				else return strs[i].substr(0, pflen);
+			}
+			pflen++;
+		}
+		return strs[0].substr(0, pflen);
+	}
 };
 
 #pragma region BFBRT
