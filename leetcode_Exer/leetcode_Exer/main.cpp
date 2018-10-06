@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <minwindef.h>
+#include <algorithm>
+#include <synchapi.h>
 
 using namespace std;
 
@@ -582,6 +584,45 @@ public:
 		}
 		return strs[0].substr(0, pflen);
 	}
+
+	//三数之和 https://leetcode-cn.com/problems/3sum/
+	vector<vector<int>> threeSum(vector<int>& nums) {
+		sort(nums.begin(), nums.end());  //对数组进行排序
+		int l = 0, r = nums.size() - 1;
+		vector<vector<int>> res;
+		vector<int> n(3, 0);
+	
+		while (r > l)
+		{
+			int tmp = nums[r] + nums[l];
+			bool badded = false;
+			for (int i = l + 1; i < r; ++i)
+				if (nums[i] + tmp == 0)
+				{
+					n[0] = nums[l]; n[1] = nums[i]; n[2] = nums[r];
+					cout << "[" << n[0] << " ," << n[1] << " ," << n[2] << "]" << endl;
+					res.push_back(n);
+					badded = true;
+					break;
+				}
+
+			//if(tmp==0)while(nums[++l]==0);
+			if (tmp <= 0) 
+			{ 
+				int lt = l; l++;
+				while (nums[l] == nums[lt]) { l++; lt++; };
+				if (badded)r = nums.size() - 1;
+				continue; 
+			}
+			else 
+			{ 
+				int rt = r; r--;
+				while (nums[r] == nums[rt]) { r--; rt--; };
+				if(badded)l = 0; 
+			}
+		}
+		return res;
+	}
 };
 
 #pragma region BFBRT
@@ -693,6 +734,8 @@ int main()
 	//cout << A.numDecodings("101") << endl;
 	//cout << A.longestPalindrome_dp("ccc") << endl;
 
+	vector<int> nums = { -4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6 };
+	A.threeSum(nums);
 	string str = "cbba";
 	str.append("NC");
 	cout << str << endl;
@@ -713,4 +756,4 @@ int main()
 	system("pause");
 
 	return 0;
-}
+};
