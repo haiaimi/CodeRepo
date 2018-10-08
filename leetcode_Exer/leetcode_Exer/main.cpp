@@ -655,6 +655,36 @@ public:
 		}
 		return res;
 	}
+
+	//最接近的三数之和 https://leetcode-cn.com/problems/3sum-closest/
+	int threeSumClosest(vector<int>& nums, int target) {
+		sort(nums.begin(), nums.end());
+		int min = INT_MAX;
+		int res;
+
+		for (int i = 0; i < nums.size() - 2; ++i)
+		{
+			int l = i + 1, r = nums.size() - 1;
+			int p = nums[i] - target;
+			while (r > l)
+			{
+				int tmp = p + nums[l] + nums[r];
+				if (abs(tmp) < 1)return target;
+				if (abs(tmp) < min) { min = abs(tmp); res = tmp + target; }
+				if (tmp < 0)
+				{
+					int lt = l; l++;
+					while (l >= 0 && nums[lt] == nums[l]) { lt++; l++; }
+				}
+				else
+				{
+					int rt = r; r--;
+					while (r < nums.size() && nums[rt] == nums[r]) { rt--; r--; }
+				}
+			}
+		}
+		return res;
+	}
 };
 
 #pragma region BFBRT
