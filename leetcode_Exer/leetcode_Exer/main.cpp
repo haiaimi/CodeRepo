@@ -760,6 +760,32 @@ public:
 
 		return res;
 	}
+
+	//删除链表的倒数第N个结点 https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+	ListNode* removeNthFromEnd(ListNode* head, int n) {
+		if (head == NULL)return NULL;
+		ListNode* front = head;
+		ListNode* back = head;
+		int i = n;
+		while (i)
+		{
+			back = back->next;
+			i--;
+		}
+		if (back == NULL)  return head->next; 
+
+		while (back->next)
+		{
+			back = back->next;
+			front = front->next;
+		}
+
+		ListNode* tmp = front->next;
+		front->next = tmp->next;
+		delete tmp;
+
+		return head;
+	}
 };
 
 #pragma region BFBRT
