@@ -4,6 +4,7 @@
 #include <minwindef.h>
 #include <algorithm>
 #include <synchapi.h>
+#include <stack>
 
 using namespace std;
 
@@ -786,6 +787,24 @@ public:
 
 		return head;
 	}
+
+	//有效的括号 https://leetcode-cn.com/problems/valid-parentheses/
+	//利用栈的特性解决该问题
+	bool isValid(string s) {
+		int len = s.length();
+		if (!len)return true;
+
+		stack<char> strs;
+		for (int i = 0; i < len; ++i)
+		{
+			if (!strs.empty() && ((strs.top() == '('&&s[i] == ')') || (strs.top() == '{'&&s[i] == '}') || (strs.top() == '['&&s[i] == ']')))
+				strs.pop();
+			else
+				strs.push(s[i]);
+		}
+		if (strs.empty())return true;
+		return false;
+	}
 };
 
 #pragma region BFBRT
@@ -921,6 +940,8 @@ int main()
 	//reverse(str.begin(), str.end());
 
 	char a[10], *p = a;
+	
+	stack<int> st;
 	
 	system("pause");
 
