@@ -372,6 +372,24 @@ public:
 			pHead = pHead->next;
 		}
 	}
+
+	//求a的b次方的模 蒙格马利快速幂模算法
+	long power(long a, long b, long mod)
+	{
+		long tmp = 1;
+		a %= mod;
+
+		while (b > 1)
+		{
+			if ((b & 1) != 0)
+				tmp = (tmp*a) % mod;
+
+			a = (a*a) % mod;
+			b /= 2;
+		}
+
+		return (tmp*a) % mod;
+	}
 };
 
 // 下面是对C++基础测试代码
@@ -1056,238 +1074,245 @@ public:
 
 int D::b = 0;
 
+//int main()
+//{
+//	//Solution A;
+//	//std::string str = "123486";
+//	//auto iter = str.end();
+//	//int* res = new int(5);
+//	//int* a = (int*)malloc(sizeof(int));
+//	//*a = 10;
+//	//char charStr[20] = "aaa";
+//	//char charPat[20] = "ab*a";
+//	//char charNum[] = "123.45e+6";
+//
+//	//cout << A.LastRemaining_Solution(5, 2) << endl;
+//	//cout << A.Add(100,50) << endl;
+//	//cout << A.StrToInt(str)<< endl;
+//	//cout << *res << endl;
+//	//cout << *a << endl;
+//
+//	//fun_0();
+//	//fun_1();
+//	//fun_2();
+//	//fun_4();
+//	//
+//	//cout << endl;
+//	//cout << strlen(charStr) << endl;
+//
+//	//if (A.match(charStr, charPat))
+//	//	cout << "匹配成功" << endl;
+//	//else cout << "匹配失败" << endl;
+//
+//	//if (A.isNumeric(charNum))
+//	//	cout << "是数字" << endl;
+//	//else cout << "不是数字" << endl << endl;
+//
+//	//delete res;
+//	//free(a);
+//
+//	///*int m, n;
+//	//cin >> n >> m;
+//	//if (n<2 || n>1e10)return;
+//	//if (m < 1)return;
+//	//if (n % (2 * m))return;
+//
+//	//int couples = n / (2 * m);
+//	//cout << couples * m * m;*/
+//
+//	////vector<vector<int>> vec;
+//	//int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//	//vector<int> numVec(numbers, numbers + 10);
+//	//numVec.push_back(2);
+//	//for (auto it : numVec)
+//	//{
+//	//	cout << it << ' ';
+//	//}
+//	//cout << endl;
+//
+//	//fun_8();
+//	//fun_10();
+//
+//	//cout << GlobalVal << endl;
+//
+//	//string sortStr = "BCDAGF";
+//	//sort(sortStr.begin(), sortStr.end());
+//
+//	//cout << sortStr << endl;
+//	//cout << sizeof(AlignTest) << endl;
+//
+//	//int num = 10;
+//	//int* p = &num;
+//	//*p = 5;
+//	//cout << *p << endl;
+//
+//	////char str2[] = { 'a','b','c','d' };  //错误，由于没有'\0'结束符
+//	//char str3[] = { 'a','b','c','d','\0' };  //正确
+//	//char str4[] = "abcd";                 //正确，直接申请的字符串，不需要 '\0'
+//	//char* str5 = str4;
+//	////str3 = str5;           //错误，此时str3是个常量，不能被更改，但是它所指的值是可以改变的
+//	//str5[1] = 'B';
+//	//cout << ++str5 << endl;  //正确
+//	////cout << ++str4 << endl;  //错误
+//	//int nums[] = { 1,2,3,4,5 };
+//	//int* numsPtr = nums;
+//	//cout << *nums << endl;
+//	//cout << *(++numsPtr) << endl;
+//	//GetMaxMultiRes();
+//	//EnCodeString();
+//	//GetMaxSum();
+//	//fun_10();
+//
+//	/*int num = 2;
+//	void* arg = (void*)(&num);
+//
+//	int b = 0; 
+//	b += num++;
+//	cout << b << endl;
+//
+//	b = num++;
+//	cout << b << endl;*/
+//
+//	//畅游笔试题
+//	/*typedef pair<int, int> pos;
+//	pos playerPos;
+//	int npcNum = 0;
+//	string npcPos_str;
+//	cin >> playerPos.first >> playerPos.second;
+//	cin >> npcNum;
+//	cin >> npcPos_str;
+//	npcPos_str += ',';
+//	vector<pos> npcPos(npcNum,pos(0,0));
+//	int dotIndex = 0;
+//	int fastNpc = 0;
+//	int minDistance = 10000000;
+//	for (int i = 0; i < npcNum; ++i)
+//	{
+//		int tmp = 0;
+//		tmp = npcPos_str.find(',', dotIndex);
+//		int posX = 0;
+//		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posX);
+//		
+//		dotIndex = tmp + 1;
+//		tmp = npcPos_str.find(',', dotIndex);
+//		int posY = 0;
+//		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posY);
+//		dotIndex = tmp + 1;
+//		npcPos[i].first = posX;
+//		npcPos[i].second = posY;
+//
+//		int tmpDis = abs(posX - playerPos.first)*abs(posX - playerPos.first) + abs(posY - playerPos.second)*abs(posY - playerPos.second);
+//		if (tmpDis < minDistance)
+//		{
+//			minDistance = tmpDis;
+//			fastNpc = i;
+//		}
+//	}
+//
+//	cout << "(" << npcPos[fastNpc].first << "," << npcPos[fastNpc].second << ")";
+//*/
+//
+//	//int n, K;
+//	//cin >> n >> K;
+//
+//	//int curMin = 0;
+//
+//	//int a, b;
+//	//char c;
+//	//cin >> a >> c >> b;
+//	//cout << a << " " << b << endl;
+//
+//	//maxNumberFromStrings();
+//
+//	//getTreeHeight();
+//	//reverseString();
+//	
+//	class Test
+//	{
+//	public:
+//		int a = 0;
+//	private:
+//		int b = 1;
+//	};
+//
+//	class VirtualBaseClass
+//	{
+//	public:
+//		virtual void fun() {};
+//	};
+//
+//	class VirtualDeriveClass :VirtualBaseClass
+//	{
+//	public:
+//		virtual void fun() {};
+//	};
+//
+//	class A
+//	{
+//	public:
+//		int a = 1;
+//
+//	};
+//
+//	class B
+//	{
+//	public:
+//		int b = 2;
+//	};
+//
+//	class C :public A, public B
+//	{
+//
+//	};
+//
+//	/*int num = -123559;
+//	for (int i = 0; i < sizeof(int) * 8; ++i)
+//	{
+//		int tmp = num >> i;
+//		tmp &= 1;
+//		cout << tmp;
+//	}
+//	cout << endl;
+//
+//	num = 123559;
+//	for (int i = 0; i < sizeof(int) * 8; ++i)
+//	{
+//		int tmp = num >> i;
+//		tmp &= 1;
+//		cout << tmp;
+//	}
+//	cout << endl;
+//	cout << sizeof(string) << endl;*/
+//
+//	D* d = nullptr;
+//	cout << d->GetStaticNum() << endl;
+//	cout << d->GetNum() << endl;
+//
+//	string str = "abced";
+//	cout << str.substr(1) << endl;
+//
+//	C c;
+//	A* a = (A*)(&c);
+//	cout << a->a << endl;
+//
+//	cout << sizeof(VirtualDeriveClass) << endl;
+//	/*Test A;
+//	Test* B = &A;
+//	int* tmp = (int*)B;
+//	tmp++;
+//	*tmp += 2;
+//	cout << *tmp << endl;*/
+//
+//	//DaffodilNumber();
+//	//GetSqrtNum();
+//	CrossRiver();
+//	system("pause");
+//	return 0;
+//}
+
 int main()
 {
-	//Solution A;
-	//std::string str = "123486";
-	//auto iter = str.end();
-	//int* res = new int(5);
-	//int* a = (int*)malloc(sizeof(int));
-	//*a = 10;
-	//char charStr[20] = "aaa";
-	//char charPat[20] = "ab*a";
-	//char charNum[] = "123.45e+6";
 
-	//cout << A.LastRemaining_Solution(5, 2) << endl;
-	//cout << A.Add(100,50) << endl;
-	//cout << A.StrToInt(str)<< endl;
-	//cout << *res << endl;
-	//cout << *a << endl;
-
-	//fun_0();
-	//fun_1();
-	//fun_2();
-	//fun_4();
-	//
-	//cout << endl;
-	//cout << strlen(charStr) << endl;
-
-	//if (A.match(charStr, charPat))
-	//	cout << "匹配成功" << endl;
-	//else cout << "匹配失败" << endl;
-
-	//if (A.isNumeric(charNum))
-	//	cout << "是数字" << endl;
-	//else cout << "不是数字" << endl << endl;
-
-	//delete res;
-	//free(a);
-
-	///*int m, n;
-	//cin >> n >> m;
-	//if (n<2 || n>1e10)return;
-	//if (m < 1)return;
-	//if (n % (2 * m))return;
-
-	//int couples = n / (2 * m);
-	//cout << couples * m * m;*/
-
-	////vector<vector<int>> vec;
-	//int numbers[10] = { 1,2,3,4,5,6,7,8,9,10 };
-	//vector<int> numVec(numbers, numbers + 10);
-	//numVec.push_back(2);
-	//for (auto it : numVec)
-	//{
-	//	cout << it << ' ';
-	//}
-	//cout << endl;
-
-	//fun_8();
-	//fun_10();
-
-	//cout << GlobalVal << endl;
-
-	//string sortStr = "BCDAGF";
-	//sort(sortStr.begin(), sortStr.end());
-
-	//cout << sortStr << endl;
-	//cout << sizeof(AlignTest) << endl;
-
-	//int num = 10;
-	//int* p = &num;
-	//*p = 5;
-	//cout << *p << endl;
-
-	////char str2[] = { 'a','b','c','d' };  //错误，由于没有'\0'结束符
-	//char str3[] = { 'a','b','c','d','\0' };  //正确
-	//char str4[] = "abcd";                 //正确，直接申请的字符串，不需要 '\0'
-	//char* str5 = str4;
-	////str3 = str5;           //错误，此时str3是个常量，不能被更改，但是它所指的值是可以改变的
-	//str5[1] = 'B';
-	//cout << ++str5 << endl;  //正确
-	////cout << ++str4 << endl;  //错误
-	//int nums[] = { 1,2,3,4,5 };
-	//int* numsPtr = nums;
-	//cout << *nums << endl;
-	//cout << *(++numsPtr) << endl;
-	//GetMaxMultiRes();
-	//EnCodeString();
-	//GetMaxSum();
-	//fun_10();
-
-	/*int num = 2;
-	void* arg = (void*)(&num);
-
-	int b = 0; 
-	b += num++;
-	cout << b << endl;
-
-	b = num++;
-	cout << b << endl;*/
-
-	//畅游笔试题
-	/*typedef pair<int, int> pos;
-	pos playerPos;
-	int npcNum = 0;
-	string npcPos_str;
-	cin >> playerPos.first >> playerPos.second;
-	cin >> npcNum;
-	cin >> npcPos_str;
-	npcPos_str += ',';
-	vector<pos> npcPos(npcNum,pos(0,0));
-	int dotIndex = 0;
-	int fastNpc = 0;
-	int minDistance = 10000000;
-	for (int i = 0; i < npcNum; ++i)
-	{
-		int tmp = 0;
-		tmp = npcPos_str.find(',', dotIndex);
-		int posX = 0;
-		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posX);
-		
-		dotIndex = tmp + 1;
-		tmp = npcPos_str.find(',', dotIndex);
-		int posY = 0;
-		sscanf_s(npcPos_str.substr(dotIndex, tmp - dotIndex).c_str(), "%d", &posY);
-		dotIndex = tmp + 1;
-		npcPos[i].first = posX;
-		npcPos[i].second = posY;
-
-		int tmpDis = abs(posX - playerPos.first)*abs(posX - playerPos.first) + abs(posY - playerPos.second)*abs(posY - playerPos.second);
-		if (tmpDis < minDistance)
-		{
-			minDistance = tmpDis;
-			fastNpc = i;
-		}
-	}
-
-	cout << "(" << npcPos[fastNpc].first << "," << npcPos[fastNpc].second << ")";
-*/
-
-	//int n, K;
-	//cin >> n >> K;
-
-	//int curMin = 0;
-
-	//int a, b;
-	//char c;
-	//cin >> a >> c >> b;
-	//cout << a << " " << b << endl;
-
-	//maxNumberFromStrings();
-
-	//getTreeHeight();
-	//reverseString();
-	
-	class Test
-	{
-	public:
-		int a = 0;
-	private:
-		int b = 1;
-	};
-
-	class VirtualBaseClass
-	{
-	public:
-		virtual void fun() {};
-	};
-
-	class VirtualDeriveClass :VirtualBaseClass
-	{
-	public:
-		virtual void fun() {};
-	};
-
-	class A
-	{
-	public:
-		int a = 1;
-
-	};
-
-	class B
-	{
-	public:
-		int b = 2;
-	};
-
-	class C :public A, public B
-	{
-
-	};
-
-	/*int num = -123559;
-	for (int i = 0; i < sizeof(int) * 8; ++i)
-	{
-		int tmp = num >> i;
-		tmp &= 1;
-		cout << tmp;
-	}
-	cout << endl;
-
-	num = 123559;
-	for (int i = 0; i < sizeof(int) * 8; ++i)
-	{
-		int tmp = num >> i;
-		tmp &= 1;
-		cout << tmp;
-	}
-	cout << endl;
-	cout << sizeof(string) << endl;*/
-
-	D* d = nullptr;
-	cout << d->GetStaticNum() << endl;
-	cout << d->GetNum() << endl;
-
-	string str = "abced";
-	cout << str.substr(1) << endl;
-
-	C c;
-	A* a = (A*)(&c);
-	cout << a->a << endl;
-
-	cout << sizeof(VirtualDeriveClass) << endl;
-	/*Test A;
-	Test* B = &A;
-	int* tmp = (int*)B;
-	tmp++;
-	*tmp += 2;
-	cout << *tmp << endl;*/
-
-	//DaffodilNumber();
-	//GetSqrtNum();
-	CrossRiver();
 	system("pause");
 	return 0;
 }
