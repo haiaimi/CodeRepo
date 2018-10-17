@@ -805,6 +805,26 @@ public:
 		if (strs.empty())return true;
 		return false;
 	}
+
+	//括号生成 https://leetcode-cn.com/problems/generate-parentheses/description/
+	//使用递归回溯的方法
+	vector<string> generateParenthesis(int n) {
+		vector<string> res;
+		if (n == 0)return res;
+
+		dfs(0, 0, "", res, n);
+		return res;
+	}
+
+	void dfs(int l, int r, string buffer, vector<string>& res, int n) {
+		if (l == n && r == n)
+			res.push_back(buffer);
+
+		if (l < n)
+			dfs(l + 1, r, buffer + "(", res, n);
+		if (r < l)
+			dfs(l, r + 1, buffer + ")", res, n);
+	}
 };
 
 #pragma region BFBRT
@@ -921,7 +941,6 @@ int main()
 	//A.threeSum_1(nums);
 	//A.letterCombinations("23");
 	
-
 	int num = 1;
 	int num2 = 1;
 	num2 *= ++num;
