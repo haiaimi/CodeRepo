@@ -721,7 +721,6 @@ public:
 	}
 
 	//四数之和 https://leetcode-cn.com/problems/4sum/
-	//与三数之和的方法相似，多了一层循环
 	vector<vector<int>> fourSum(vector<int>& nums, int target) {
 		sort(nums.begin(), nums.end());
 		vector<vector<int>> res;
@@ -824,6 +823,29 @@ public:
 			dfs(l + 1, r, buffer + "(", res, n);
 		if (r < l)
 			dfs(l, r + 1, buffer + ")", res, n);
+	}
+
+
+	//合并k个排序链表 https://leetcode-cn.com/problems/merge-k-sorted-lists/submissions/
+	ListNode* mergeKLists(vector<ListNode*>& lists) {
+		if (lists.size() == 0)return NULL;
+		ListNode* first = NULL, *tmpfirst = NULL;
+		while (lists.size())
+		{
+			int minindex = -1, min = INT_MAX;
+			for (int i = 0; i < lists.size(); ++i)
+			{
+				if (lists[i] == NULL) { lists.erase(lists.begin() + i); --i; continue; }
+				if (min > lists[i]->val) { minindex = i; min = lists[i]->val; }
+			}
+			if (minindex < 0)continue;
+			if (first == NULL)first = lists[minindex];
+			if (tmpfirst == NULL) { tmpfirst = lists[minindex]; }
+			else { tmpfirst->next = lists[minindex]; tmpfirst = tmpfirst->next; }
+			lists[minindex] = lists[minindex]->next;
+		}
+
+		return first;
 	}
 };
 
@@ -947,6 +969,7 @@ int main()
 	//num2 = num++;
 	cout << num2 << endl;
 	vector<string> strs = { "afaf","sgsdgsg","sgsdgs" };
+	
 	for (auto &it : strs)
 	{
 		char a = 'b';
