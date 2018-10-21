@@ -825,7 +825,6 @@ public:
 			dfs(l, r + 1, buffer + ")", res, n);
 	}
 
-
 	//合并k个排序链表 https://leetcode-cn.com/problems/merge-k-sorted-lists/submissions/
 	ListNode* mergeKLists(vector<ListNode*>& lists) {
 		if (lists.size() == 0)return NULL;
@@ -845,6 +844,30 @@ public:
 			lists[minindex] = lists[minindex]->next;
 		}
 
+		return first;
+	}
+
+	//两两交换链表中的节点 https://leetcode-cn.com/problems/swap-nodes-in-pairs/submissions/
+	ListNode* swapPairs(ListNode* head) {
+		if (head == NULL) return NULL;
+		ListNode *left = NULL, *mid = NULL, *first = head->next;
+		if (first == NULL)return head;
+
+		while (head)
+		{
+			if (head->next)
+			{
+				if (head->next->next)mid = head->next->next;
+				head->next->next = head;
+				if (left)left->next = head->next;
+				head->next = NULL;
+			}
+			else if (!head->next&&left)left->next = head;
+
+			left = head;
+			head = mid;
+			mid = NULL;
+		}
 		return first;
 	}
 };
