@@ -870,6 +870,41 @@ public:
 		}
 		return first;
 	}
+
+	//k个一组翻转链表 https://leetcode-cn.com/problems/reverse-nodes-in-k-group/submissions/
+	//方法略复杂
+	ListNode* reverseKGroup(ListNode* head, int k) {
+		if (head == NULL)return NULL;
+		ListNode* t = head;
+		ListNode* left = head, *first = head, *res = head, *pre = NULL;
+		head = head->next;
+
+		int nodeCounts = 0;
+		while (t) { nodeCounts++; t = t->next; }  //计算链表节点个数
+
+		//分组翻转链表
+		for (int j = 0; j < nodeCounts / k; ++j)
+		{
+			for (int i = 0; i < k - 1; ++i)
+			{
+				if (head == NULL)break;
+				ListNode* tmp = head->next;
+				head->next = left;
+				left = head;
+				if (pre)pre->next = head;  //用于连接下一组
+				head = tmp;
+				first->next = head;
+			}
+			//准备下一组翻转
+			if (j == 0)res = left;
+			pre = first;
+			first = head;
+			left = head;
+			if (head)head = head->next;
+		}
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
