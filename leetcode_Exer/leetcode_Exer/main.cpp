@@ -905,6 +905,23 @@ public:
 
 		return res;
 	}
+
+	//删除排序数组中的重复项 https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/submissions/
+	int removeDuplicates(vector<int>& nums) {
+		if (nums.size() <= 1)return nums.size();
+		int pre = nums[0];
+		for (int i = 1; i < nums.size(); ++i)
+		{
+			if (nums[i] == pre)
+			{
+				nums.erase(nums.begin() + i);
+				i--;
+			}
+			else
+				pre = nums[i];
+		}
+		return nums.size();
+	}
 };
 
 #pragma region BFBRT
