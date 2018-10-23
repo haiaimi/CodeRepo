@@ -961,6 +961,28 @@ public:
 
 		return l;
 	}
+
+	//实现strStr() https://leetcode-cn.com/problems/implement-strstr/submissions/
+	//使用了最简单的方法
+	int strStr(string haystack, string needle) {
+		if (needle.length() == 0)return 0;
+		int last = haystack.length() - needle.length() + 1;
+
+		for (int i = 0; i < last; ++i)
+		{
+			int tmp = i;
+			for (int j = 0; j < needle.length(); ++j)
+			{
+				if (haystack[tmp] == needle[j])
+					if (j == needle.length() - 1)return i;
+					else { tmp++; continue; }
+				else
+					break;
+			}
+		}
+
+		return -1;
+	}
 };
 
 #pragma region BFBRT
