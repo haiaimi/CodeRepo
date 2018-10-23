@@ -937,6 +937,30 @@ public:
 		}
 		return i + 1;
 	}
+
+	//移除元素 https://leetcode-cn.com/problems/remove-element/submissions/
+	//双指针方法（左右开始），O(n)复杂度
+	int removeElement(vector<int>& nums, int val) {
+		if (nums.size() == 0)return 0;
+		int l = 0, r = nums.size() - 1;
+		while (l <= r)
+		{
+			if (nums[l] == val)
+			{
+				if (nums[r] != val)
+				{
+					nums[l] = nums[r];
+					r--; l++;
+				}
+				else
+					r--;
+			}
+			else
+				l++;
+		}
+
+		return l;
+	}
 };
 
 #pragma region BFBRT
