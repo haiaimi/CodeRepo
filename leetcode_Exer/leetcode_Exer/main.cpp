@@ -983,6 +983,56 @@ public:
 
 		return -1;
 	}
+
+	//两数相除 https://leetcode-cn.com/problems/divide-two-integers/submissions/
+	//实现的比较复杂
+	int divide(int dividend, int divisor) {
+		if (dividend == 0)return 0;
+		int res = 0;
+		int tmpres = 1;
+		bool a = dividend > 0 ? true : false;
+		bool b = divisor > 0 ? true : false;
+		//最值都一一列出单独解决
+		//最值都一一列出单独解决
+		if (divisor == INT_MAX)
+		{
+			if (dividend == INT_MAX)return 1;
+			if (dividend == INT_MIN)return -1;
+			return 0;
+		}
+
+		if (divisor == INT_MIN)if (dividend == INT_MIN)return 1; else return 0;
+		int absdd = abs(dividend), absdr = abs(divisor);
+		if (dividend == INT_MIN)
+		{
+			absdd = INT_MAX;
+			absdd -= (absdr - 1);
+			res++;
+		}
+		int tmpdr = absdr;
+		while (absdd >= absdr)
+		{
+			absdd -= tmpdr;
+			res += tmpres;
+
+			if (absdd >= abs(tmpdr + tmpdr))
+			{
+				tmpdr = tmpdr + tmpdr;
+				tmpres = tmpres + tmpres;
+			}
+			else
+			{
+				tmpdr = absdr;
+				tmpres = 1;
+			}
+			if (!(a^b) && INT_MAX - res < tmpres)return INT_MAX;
+			if (a^b&&INT_MAX - res + 1 < tmpres)return INT_MIN;
+		}
+
+		if (a^b)res = -res;
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
