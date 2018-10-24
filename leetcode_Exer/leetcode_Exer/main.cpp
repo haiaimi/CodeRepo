@@ -993,7 +993,6 @@ public:
 		bool a = dividend > 0 ? true : false;
 		bool b = divisor > 0 ? true : false;
 		//最值都一一列出单独解决
-		//最值都一一列出单独解决
 		if (divisor == INT_MAX)
 		{
 			if (dividend == INT_MAX)return 1;
@@ -1032,6 +1031,28 @@ public:
 		if (a^b)res = -res;
 
 		return res;
+	}
+
+	//位操作解决
+	int divide_bit(int dividend, int divisor) {
+		//转换成long long类型可以避免溢出问题
+		if (divisor == 0 || (dividend == INT_MIN && divisor == -1)) return INT_MAX;
+		long long m = abs((long long)dividend), n = abs((long long)divisor), res = 0;
+		int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;    //判断结果正负
+		if (n == 1) return sign == 1 ? m : -m;
+
+		//思想与上面的方法一样，只不过这里使用位操作来实现倍数增加
+		//同样就是要避免逐个相加，这样如果除数大就会造成多次循环
+		while (m >= n) {
+			long long t = n, p = 1;
+			while (m >= (t << 1)) {
+				t <<= 1;
+				p <<= 1;  //
+			}
+			res += p;
+			m -= t;  //处理剩余的
+		}
+		return sign == 1 ? res : -res;
 	}
 };
 
