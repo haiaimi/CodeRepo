@@ -1054,6 +1054,33 @@ public:
 		}
 		return sign == 1 ? res : -res;
 	}
+
+	//搜索旋转排序数组 https://leetcode-cn.com/problems/search-in-rotated-sorted-array/submissions/
+	int search(vector<int>& nums, int target) {
+		int l = 0, r = nums.size() - 1;
+		if (nums.size() == 1)
+			if (nums[0] == target)return 0;
+			else return -1;
+		int len = nums.size();
+		while (l < r)
+		{
+			if (nums[l] == target)return l;
+			if (nums[r] == target)return r;
+			if (r - l == 1)return -1;
+			int c = (l + r) / 2;
+
+			//就是分情况考虑，在左边的情况和在右边的情况
+			if (nums[l] >= target && nums[c] >= target && nums[l] > nums[c]) { r = c; continue; }
+			if (nums[l] <= target && nums[c] <= target && nums[l] > nums[c]) { r = c; continue; }
+			if (nums[l] <= target && nums[c] >= target) { r = c; continue; }
+
+			if (nums[r] >= target) { l = c; continue; }
+			if (nums[r] <= target && nums[c] <= target) { l = c; continue; }
+
+			return -1;
+		}
+		return -1;
+	}
 };
 
 #pragma region BFBRT
