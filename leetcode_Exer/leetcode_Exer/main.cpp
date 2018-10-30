@@ -1081,6 +1081,44 @@ public:
 		}
 		return -1;
 	}
+
+	//在排序数组中查找元素的第一个和最后一个位置（log(n)复杂度）  https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+	vector<int> res;
+	vector<int> searchRange(vector<int>& nums, int target) {
+		int l = 0, r = nums.size() - 1;
+		res = vector<int>(2, -1);
+
+		searchRangeImpl(nums, target, 0, r);
+		return res;
+	}
+
+	void searchRangeImpl(vector<int>& nums, int target, int left, int right)
+	{
+		if (left > right)return;
+		int mid = (left + right) / 2;
+
+		if (nums[mid] == target)
+		{
+			if (mid == 0 || nums[mid - 1] < target)
+			{
+				res[0] = mid;
+				searchRangeImpl(nums, target, mid + 1, right);
+				return;
+			}
+			if (mid == nums.size() - 1 || nums[mid + 1] > target)
+			{
+				res[1] = mid;
+				searchRangeImpl(nums, target, left, mid - 1);
+				return;
+			}
+
+			searchRangeImpl(nums, target, left, mid);
+			searchRangeImpl(nums, target, mid, right);
+		}
+		else if (nums[mid] > target)searchRangeImpl(nums, target, left, mid);
+		else searchRangeImpl(nums, target, mid, right);
+		return;
+	}
 };
 
 #pragma region BFBRT
