@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <synchapi.h>
 #include <stack>
+#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -1103,21 +1105,91 @@ public:
 			{
 				res[0] = mid;
 				searchRangeImpl(nums, target, mid + 1, right);
-				return;
 			}
 			if (mid == nums.size() - 1 || nums[mid + 1] > target)
 			{
 				res[1] = mid;
 				searchRangeImpl(nums, target, left, mid - 1);
-				return;
 			}
 
-			searchRangeImpl(nums, target, left, mid);
-			searchRangeImpl(nums, target, mid, right);
+			searchRangeImpl(nums, target, left, mid - 1);
+			searchRangeImpl(nums, target, mid + 1, right);
+			return;
 		}
-		else if (nums[mid] > target)searchRangeImpl(nums, target, left, mid);
-		else searchRangeImpl(nums, target, mid, right);
+		else if (nums[mid] > target)searchRangeImpl(nums, target, left, mid - 1);
+		else searchRangeImpl(nums, target, mid + 1, right);
 		return;
+	}
+
+	//与所有单词相关联的字串 https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words/
+	//下面的方法是使用哈希表
+	vector<int> findSubstring(string s, vector<string>& words)
+	{
+		vector<int> res;
+		if (s.empty() || words.empty()) return res;
+		int n = words.size(), m = words[0].size();
+		unordered_map<string, int> m1;
+		for (auto &a : words) ++m1[a];
+
+		for (int i = 0; i <= (int)s.size() - n * m; ++i) 
+		{
+			unordered_map<string, int> m2;   //辅助哈希表
+			int j = 0;
+			for (j = 0; j < n; ++j) 
+			{
+				string t = s.substr(i + j * m, m);
+				if (m1.find(t) == m1.end()) break;
+				++m2[t];
+				if (m2[t] > m1[t]) break;
+			}
+
+			if (j == n) res.push_back(i);
+		}
+		return res;
+		
+	}
+	//方法二，使用动态规划
+	vector<int> findSubstring_1(string s, vector<string>& words) {
+		vector<int>re;
+		if (s.empty() || words.empty()) return re;
+		int n = words[0].size(), length1 = s.size(), length2 = words.size();
+		map<string, int> aa;
+		for (auto x : words) ++aa[x];
+
+		for (int i = 0; i < n; ++i) {
+			int l = i, r = i;      //  l指向滑动窗口最左边的单词的起始点， r指向滑动窗口最右边的单词的起始点
+			map<string, int> bb;
+			while (r + n <= s.size()) {
+				if (aa.count(s.substr(r, n))) {      //有效单词
+					string wd = s.substr(r, n);
+					++bb[wd];
+					r += n;
+					if (bb[wd] < aa[wd]) continue;    // 当前单词个数小于目标单词个数，r右移，添加最右端单词(continue,跳到下一次循环自动执行)
+
+					//下面的就涉及到动态规划
+					while (bb[wd] > aa[wd]) {       //当前单词个数大于目标单词个数，删除最左端单词，l右移
+						if (--bb[s.substr(l, n)] == 0)
+							bb.erase(s.substr(l, n));
+						l += n;
+					}    //这里一定要注意用while循环（而不是if），直到当前单词个数等于目标单词个数
+
+
+					if (bb[wd] == aa[wd] && r - l == length2 * n) {  //当前单词个数等于目标单词个数，比较目前单词总数与目标单词总数是否相等，
+						//如果不相等：r右移，添加最右端单词(跳到下一次循环自动执行)。如果相等：删除最左端单词，l右移；r右移，添加最右端单词(跳到下一次循环自动执行)。
+						re.push_back(l);
+						if (--bb[s.substr(l, n)] == 0)
+							bb.erase(s.substr(l, n));
+						l += n;
+					}
+				}
+				else {  //如果单词无效，则l,r跳到下一个单词处重新开始计数
+					bb.clear();
+					r += n;
+					l = r;
+				}
+			}
+		}
+		return re;
 	}
 };
 
