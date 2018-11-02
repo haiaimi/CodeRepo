@@ -1195,7 +1195,6 @@ public:
 	//下一个排列 https://leetcode-cn.com/problems/next-permutation/
 	void nextPermutation(vector<int>& nums) {
 		int len = nums.size();
-
 		int i = 0;
 		for (i = len - 2; i >= 0; --i)
 		{
@@ -1220,6 +1219,31 @@ public:
 		}
 
 		sort(nums.begin(), nums.end());
+	}
+
+	//方法二，直接进行排序处理，效率较高
+	void nextPermutation_1(vector<int>& nums){
+		int len = nums.size();
+		int i = 0;
+
+		for (int i = len - 2; i >= 0; --i)
+		{
+			int tmp = nums[i];
+			for (int j = i + 1; j < len; ++j)
+			{
+				if (tmp >= nums[j])
+				{
+					swap(nums[j - 1], nums[j]);
+				}
+				else
+				{
+					tmp = nums[j];
+					nums.erase(nums.begin() + j);
+					nums.insert(nums.begin() + i, tmp);
+					return;
+				}
+			}
+		}
 	}
 };
 
