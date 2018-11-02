@@ -1191,6 +1191,36 @@ public:
 		}
 		return re;
 	}
+
+	//下一个排列 https://leetcode-cn.com/problems/next-permutation/
+	void nextPermutation(vector<int>& nums) {
+		int len = nums.size();
+
+		int i = 0;
+		for (i = len - 2; i >= 0; --i)
+		{
+			int tmp = i, min = INT_MAX;
+			for (int j = i + 1; j < len; ++j)
+			{
+				if (nums[i] < nums[j])
+				{
+					if (nums[j] - nums[i] < min)
+					{
+						min = nums[j] - nums[i];
+						tmp = j;
+					}
+				}
+			}
+			if (i != tmp)
+			{
+				swap(nums[i], nums[tmp]);
+				sort(nums.begin() + i + 1, nums.end());     //对后面的数进行排序
+				return;
+			}
+		}
+
+		sort(nums.begin(), nums.end());
+	}
 };
 
 #pragma region BFBRT
@@ -1441,6 +1471,9 @@ int main()
 						-45943,33665,9174,-84360,-22684,-16832,-67949,-38077,-38987,-32847,51443,-53580,-13505,9344,-92337,26585,70458,-52764,-67471,-68411,-1119,
 						-2072,-93476,67981,40887,-89304,-12235,41488,1454,5355,-34855,-72080,24514,-58305,3340,34331,8731,77451,-64983,-57876,82874,62481,-32754,
 						-39902,22451,-79095,-23904,78409,-7418,7791 };
+
+										
+	//sort(nums.begin(), nums.end());
 	
 	int num = 1;
 	int num2 = 1;
