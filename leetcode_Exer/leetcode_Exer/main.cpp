@@ -1245,6 +1245,19 @@ public:
 			}
 		}
 	}
+
+	//搜索插入位置 https://leetcode-cn.com/problems/search-insert-position/
+	//直接迭代查找
+	int searchInsert(vector<int>& nums, int target) {
+		if (nums.size() == 0)return 0;
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			if (nums[i] == target)return i;
+			if (nums[i] > target)return i;
+		}
+		return nums.size();
+	}
 };
 
 #pragma region BFBRT
