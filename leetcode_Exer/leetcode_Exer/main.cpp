@@ -1275,6 +1275,51 @@ public:
 		if (nums[l] < target)l += 1;
 		return l;
 	}
+
+	//ÓÐÐ§Êý¶À https://leetcode-cn.com/problems/valid-sudoku/
+	bool isValidSudoku(vector<vector<char>>& board) {
+
+		for (int i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 3; ++j)
+			{
+				unordered_map<char, int> tmp;
+				for (int m = 0; m < 3; ++m)
+					for (int n = 0; n < 3; ++n)
+					{
+						char key = board[i * 3 + m][j * 3 + n];
+						if (key == '.')continue;
+						if (tmp.find(key) == tmp.end())
+							++tmp[key];
+						else return false;
+					}
+			}
+		}
+
+		for (int i = 0; i < 9; ++i)
+		{
+			unordered_map<char, int> tmp1;
+			unordered_map<char, int> tmp2;
+			for (int j = 0; j < 9; ++j)
+			{
+				char key1 = board[i][j];
+				char key2 = board[j][i];
+				if (key1 != '.')
+				{
+					if (tmp1.find(key1) == tmp1.end())
+						++tmp1[key1];
+					else return false;
+				}
+				if (key2 != '.')
+				{
+					if (tmp2.find(key2) == tmp2.end())
+						++tmp2[key2];
+					else return false;
+				}
+			}
+		}
+		return true;
+	}
 };
 
 #pragma region BFBRT
