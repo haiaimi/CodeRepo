@@ -1258,6 +1258,23 @@ public:
 		}
 		return nums.size();
 	}
+
+	//二分查找法，效率较高
+	int searchInsert_1(vector<int>& nums, int target) {
+		//二分法
+		int len = nums.size(), index = 0;
+		int l = 0, r = len - 1;
+		if (target > nums.back())return nums.size();
+		while (r > l)
+		{
+			int mid = (l + r) / 2;
+			if (nums[mid] == target)return mid;
+			if (nums[mid] > target)r = mid - 1;
+			if (nums[mid] < target)l = mid + 1;
+		}
+		if (nums[l] < target)l += 1;
+		return l;
+	}
 };
 
 #pragma region BFBRT
