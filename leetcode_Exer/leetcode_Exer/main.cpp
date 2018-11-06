@@ -1362,6 +1362,38 @@ public:
 		}
 		return true;
 	}
+
+	//±¨Êý https://leetcode-cn.com/problems/count-and-say/
+	string countAndSay(int n) {
+		string res, tmp = "1";
+
+		for (int i = 1; i < n; ++i)
+		{
+			int len = 0, count = 1;
+			while (len < tmp.length())
+			{
+				if (len + 1 < tmp.length())
+				{
+					if (tmp[len] == tmp[len + 1])
+					{
+						count++;
+						len++;
+					}
+					else
+					{
+						res.push_back('0' + count);
+						res.push_back(tmp[len]);
+						count = 1;
+					}
+				}
+				else
+				{
+					res.push_back('0' + count);
+					res.push_back(tmp[len]);
+				}
+			}
+		}
+	}
 };
 
 #pragma region BFBRT
