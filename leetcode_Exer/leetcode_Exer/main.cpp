@@ -1365,20 +1365,17 @@ public:
 
 	//报数 https://leetcode-cn.com/problems/count-and-say/
 	string countAndSay(int n) {
-		string res, tmp = "1";
-
+		string tmp = "1";
 		for (int i = 1; i < n; ++i)
 		{
 			int len = 0, count = 1;
+			string res;
 			while (len < tmp.length())
 			{
 				if (len + 1 < tmp.length())
 				{
 					if (tmp[len] == tmp[len + 1])
-					{
 						count++;
-						len++;
-					}
 					else
 					{
 						res.push_back('0' + count);
@@ -1391,8 +1388,39 @@ public:
 					res.push_back('0' + count);
 					res.push_back(tmp[len]);
 				}
+				len++;
 			}
+			tmp = res;
 		}
+
+		return tmp;
+	}
+
+	//组合总和 https://leetcode-cn.com/problems/combination-sum/
+	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+		vector<vector<int>> res;
+		vector<int> row;
+		for (int i = 0; i < candidates.size(); ++i)
+			combinationSumImpl(candidates, target, i, 0, row, res);
+
+		return res;
+	}
+
+	void combinationSumImpl(vector<int>& candidates, int target, int index, int sum, vector<int>& row, vector<vector<int>>& res) {
+		if (index >= candidates.size() || sum + candidates[index] > target)return;
+		row.push_back(candidates[index]);
+		if (sum + candidates[index] == target)
+		{
+			res.push_back(row);
+			row.pop_back();
+			return;
+		}
+
+		combinationSumImpl(candidates, target, index, sum + candidates[index], row, res);
+		for (int i = index + 1; i < candidates.size(); ++i)
+			combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
+
+		row.pop_back();
 	}
 };
 
