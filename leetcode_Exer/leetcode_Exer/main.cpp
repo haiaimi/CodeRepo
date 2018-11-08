@@ -1422,6 +1422,68 @@ public:
 
 		row.pop_back();
 	}
+
+	//组合总和II https://leetcode-cn.com/problems/combination-sum-ii/
+	vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+		sort(candidates.begin(), candidates.end());
+
+		vector<vector<int>> res;
+		vector<int> row;
+		int pre = INT_MAX;
+		for (int i = 0; i < candidates.size(); ++i)
+		{
+			if (candidates[i] != pre)
+			{
+				combinationSumImpl(candidates, target, i, 0, row, res);
+				pre = candidates[i];
+			}
+		}
+
+		return res;
+	}
+
+	void combinationSumImpl(vector<int>& candidates, int target, int index, int sum, vector<int>& row, vector<vector<int>>& res) {
+		if (index >= candidates.size() || sum + candidates[index] > target)return;
+		row.push_back(candidates[index]);
+
+		if (sum + candidates[index] == target)
+		{
+			vector<int>& tmp = res.back();
+			if (res.size() == 0)
+			{
+				res.push_back(row);
+				row.pop_back();
+				return;
+			}
+			int i = 0;
+			for (i = 0; i < row.size(); ++i)
+			{
+				if (row[i] != tmp[i])
+					break;
+			}
+			if (i != row.size())
+			{
+				cout << i << endl;
+				res.push_back(row);
+				row.pop_back();
+				return;
+			}
+			return;
+		}
+
+		//combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
+		int pre = candidates[index];
+		for (int i = index + 1; i < candidates.size(); ++i)
+		{
+			// if(candidates[i]!=pre)
+			// {
+			combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
+			//     pre=candidates[i];
+			// }
+		}
+
+		row.pop_back();
+	}
 };
 
 #pragma region BFBRT
