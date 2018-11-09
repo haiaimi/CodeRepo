@@ -1471,6 +1471,24 @@ public:
 
 		row.pop_back();
 	}
+
+	//缺失的第一个正数 https://leetcode-cn.com/problems/first-missing-positive/
+	//用哈希表
+	int firstMissingPositive(vector<int>& nums) {
+		unordered_map<int, int> unums;
+
+		for (auto& it : nums)
+			if (it > 0)++unums[it];
+		if (unums.find(1) == unums.end())return 1;
+
+		int res = INT_MAX;
+		for (auto& it : nums)
+		{
+			if (it > 0 && unums.find(it + 1) == unums.end())
+				res = min(it + 1, res);
+		}
+		return res;
+	}
 };
 
 #pragma region BFBRT
