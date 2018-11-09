@@ -1448,39 +1448,26 @@ public:
 
 		if (sum + candidates[index] == target)
 		{
-			vector<int>& tmp = res.back();
-			if (res.size() == 0)
+			for (auto &it : res)
 			{
-				res.push_back(row);
-				row.pop_back();
-				return;
+				int i = 0;
+				for (i = 0; i < row.size(); ++i)
+				{
+					if (row[i] != it[i])
+						break;
+				}
+				if (i == row.size())
+				{
+					row.pop_back();
+					return;
+				}
 			}
-			int i = 0;
-			for (i = 0; i < row.size(); ++i)
-			{
-				if (row[i] != tmp[i])
-					break;
-			}
-			if (i != row.size())
-			{
-				cout << i << endl;
-				res.push_back(row);
-				row.pop_back();
-				return;
-			}
+			res.push_back(row);
+			row.pop_back();
 			return;
 		}
-
-		//combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
-		int pre = candidates[index];
 		for (int i = index + 1; i < candidates.size(); ++i)
-		{
-			// if(candidates[i]!=pre)
-			// {
 			combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
-			//     pre=candidates[i];
-			// }
-		}
 
 		row.pop_back();
 	}
