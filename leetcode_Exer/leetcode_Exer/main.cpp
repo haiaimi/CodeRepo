@@ -1489,6 +1489,25 @@ public:
 		}
 		return res;
 	}
+
+	//½ÓÓêË® https://leetcode-cn.com/problems/trapping-rain-water/
+	int trap(vector<int>& height) {
+		int n = height.size(), left = 0, right = n - 1;
+		int lefth = 0, righth = 0, area = 0;
+		while (left < right) {
+			if (height[left] < height[right]) {
+				if (lefth <= height[left]) lefth = height[left];
+				else area += lefth - height[left];
+				left++;
+			}
+			else {
+				if (righth <= height[right]) righth = height[right];
+				else area += righth - height[right];
+				right--;
+			}
+		}
+		return area;
+	}
 };
 
 #pragma region BFBRT
