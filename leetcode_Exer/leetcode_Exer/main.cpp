@@ -926,7 +926,7 @@ public:
 	}
 
 	//方法二 双指针法（快慢指针），把不同的元素往前放
-	int removeDuplicates(vector<int>& nums) {
+	int removeDuplicates_1(vector<int>& nums) {
 		if (nums.size() == 0)return 0;
 		int i = 0;
 		for (int j = 1; j < nums.size(); ++j)
@@ -1434,7 +1434,7 @@ public:
 		{
 			if (candidates[i] != pre)
 			{
-				combinationSumImpl(candidates, target, i, 0, row, res);
+				combinationSumImpl2(candidates, target, i, 0, row, res);
 				pre = candidates[i];
 			}
 		}
@@ -1442,7 +1442,7 @@ public:
 		return res;
 	}
 
-	void combinationSumImpl(vector<int>& candidates, int target, int index, int sum, vector<int>& row, vector<vector<int>>& res) {
+	void combinationSumImpl2(vector<int>& candidates, int target, int index, int sum, vector<int>& row, vector<vector<int>>& res) {
 		if (index >= candidates.size() || sum + candidates[index] > target)return;
 		row.push_back(candidates[index]);
 
@@ -1467,7 +1467,7 @@ public:
 			return;
 		}
 		for (int i = index + 1; i < candidates.size(); ++i)
-			combinationSumImpl(candidates, target, i, sum + candidates[index], row, res);
+			combinationSumImpl2(candidates, target, i, sum + candidates[index], row, res);
 
 		row.pop_back();
 	}
@@ -1491,6 +1491,7 @@ public:
 	}
 
 	//接雨水 https://leetcode-cn.com/problems/trapping-rain-water/
+	//双指针方法
 	int trap(vector<int>& height) {
 		int n = height.size(), left = 0, right = n - 1;
 		int lefth = 0, righth = 0, area = 0;
@@ -1507,6 +1508,78 @@ public:
 			}
 		}
 		return area;
+	}
+
+	//栈方法
+	int trapImpl(vector<int>& height) {
+		int n = height.size(), area = 0;
+		stack<pair<int, int>> st;
+		for (int i = 0; i < n; i++) {
+			if (st.empty()) st.push(make_pair(height[i], i));
+			else if (height[i] < st.top().first) {
+				st.push(make_pair(height[i], i));
+			}
+			else {
+				while (!st.empty() && height[i] >= st.top().first) {
+					auto tmp = st.top();
+					st.pop();
+					if (!st.empty()) {
+						area += (i - 1 - st.top().second)*(min(st.top().first, height[i]) - tmp.first);
+					}
+				}
+				st.push(make_pair(height[i], i));
+			}
+		}
+		return area;
+	}
+
+	//字符串相乘 https://leetcode-cn.com/problems/multiply-strings/
+	//就是模拟乘法得过程
+	string multiply(string num1, string num2) {
+		string res = "";
+		if (num1[0] == '0' || num2[0] == '0')return "0";
+		int l1 = num1.length(), l2 = num2.length();
+		for (int i = 0; i < l1; ++i)
+		{
+			//相乘
+			string mtmp = "";
+			int carry = 0;
+			for (int j = l2 - 1; j >= 0; --j)
+			{
+				int m = (num1[i] - '0')*(num2[j] - '0') + carry;
+				carry = m / 10;
+				mtmp = char((m % 10) + '0') + mtmp;
+			}
+			if (carry != 0)mtmp = char(carry + '0') + mtmp;
+			for (int k = 0; k < l1 - i - 1; ++k)mtmp += '0';
+
+			//与前式相加
+			if (res.length() == 0)res = mtmp;
+			else
+			{
+				int carry = 0;
+				for (int m = 0; m < res.length(); ++m)
+				{
+					if (m + 1 <= mtmp.length())
+					{
+						int add = res[res.length() - m - 1] - '0' + mtmp[mtmp.length() - m - 1] - '0' + carry;
+						carry = add / 10;
+						res[res.length() - m - 1] = char(add % 10 + '0');
+					}
+					else
+					{
+						if (carry != 0)
+						{
+							int add = res[res.length() - m - 1] - '0' + carry;
+							carry = add / 10;
+							res[res.length() - m - 1] = char(add % 10 + '0');
+						}
+					}
+				}
+				if (carry != 0)res = '1' + res;
+			}
+		}
+		return res;
 	}
 };
 
@@ -1769,6 +1842,10 @@ int main()
 	cout << num2 << endl;
 	vector<string> strs = { "afaf","sgsdgsg","sgsdgs" };
 	
+	string s = "adfa";
+	char c = '0';
+	s = s + char(c + 9);
+	cout << s << endl;
 	for (auto &it : strs)
 	{
 		char a = 'b';
