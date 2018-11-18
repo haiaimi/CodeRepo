@@ -1581,6 +1581,41 @@ public:
 		}
 		return res;
 	}
+
+	//Í¨Åä·ûÆ¥Åä https://leetcode-cn.com/problems/wildcard-matching/submissions/
+	//µÝ¹é·½·¨£¬³¬Ê±
+	bool isMatch(string s, string p) {
+		if (p.length() == 1 && p[0] == '*')return true;
+
+		if (s.length() == 0)
+		{
+			if (p.length() == 1 && p[0] == '*')return true;
+			else if (p.length() >= 2 && p[0] == '*')return isMatch(s, p.substr(1));
+			else if (p.length() == 0)return true;
+			else return false;
+		}
+		if (p.length() == 0 && s.length() > 0)return false;
+
+		if (p[0] == '*')
+		{
+			int start = 1;
+			while (p[start] == '*')start++;
+			bool a = false, b = false;
+			if (p.length() >= 2 && (p[start] == s[0] || p[start] == '?'))
+				a = isMatch(s, p.substr(start));
+			if (a)return true;
+			b = isMatch(s.substr(1), p.substr(start - 1));
+			if (b)return true;
+
+			return false;
+		}
+
+		if (p[0] == '?')
+			return isMatch(s.substr(1), p.substr(1));
+
+		if (p[0] != s[0])return false;
+		else return isMatch(s.substr(1), p.substr(1));
+	}
 };
 
 #pragma region BFBRT
@@ -1835,31 +1870,37 @@ int main()
 										
 	//sort(nums.begin(), nums.end());
 	
-	int num = 1;
-	int num2 = 1;
-	num2 *= ++num;
-	//num2 = num++;
-	cout << num2 << endl;
-	vector<string> strs = { "afaf","sgsdgsg","sgsdgs" };
-	
-	string s = "adfa";
-	char c = '0';
-	s = s + char(c + 9);
-	cout << s << endl;
-	for (auto &it : strs)
-	{
-		char a = 'b';
-		it += a;
-	}
+	//int num = 1;
+	//int num2 = 1;
+	//num2 *= ++num;
+	////num2 = num++;
+	//cout << num2 << endl;
+	//vector<string> strs = { "afaf","sgsdgsg","sgsdgs" };
+	//
+	//string s = "adfa";
+	//cout << s.substr(1) << endl;
+	//char c = '0';
+	//s = s + char(c + 9);
+	//cout << s << endl;
+	//for (auto &it : strs)
+	//{
+	//	char a = 'b';
+	//	it += a;
+	//}
 
-	for (auto it : strs)
-		cout << it << endl;
-	//string str = "abcdefg";
-	//reverse(str.begin(), str.end());
+	//for (auto it : strs)
+	//	cout << it << endl;
+	////string str = "abcdefg";
+	////reverse(str.begin(), str.end());
 
-	char a[10], *p = a;
+	//char a[10], *p = a;
 	
-	stack<int> st;
+	string s = "abbabaaabbabbaababbabbbbbabbbabbbabaaaaababababbbabababaabbababaabbbbbbaaaabababbbaabbbbaabbbbababababbaabbaababaabbbababababbbbaaabbbbbabaaaabbababbbbaababaabbababbbbbababbbabaaaaaaaabbbbbaabaaababaaaabb";
+	string p = "**aa*****ba*a*bb**aa*ab****a*aaaaaa***a*aaaa**bbabb*b*b**aaaaaaaaa*a********ba*bbb***a*ba*bb*bb**a*b*bb";
+	if (A.isMatch(s, p))cout << "YES" << endl;
+	else cout << "NO" << endl;
+	cout << s.find("bbcd") << endl;
+
 	
 	system("pause");
 
