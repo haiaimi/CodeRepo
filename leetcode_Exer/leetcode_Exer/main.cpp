@@ -1638,7 +1638,7 @@ public:
 		return dp[m][n];
 	}
 
-	//贪婪算法
+	//贪心算法
 	bool isMatch_Greedy(char *s, char *p) {
 		char *scur = s, *pcur = p, *sstar = NULL, *pstar = NULL;
 		while (*scur) {
@@ -1658,6 +1658,24 @@ public:
 		}
 		while (*pcur == '*') ++pcur;
 		return !*pcur;
+	}
+
+	//跳跃游戏II https://leetcode-cn.com/problems/jump-game-ii/submissions/
+	//动态规划，但是会超时
+	int jump(vector<int>& nums) {
+		vector<int> dp(nums.size(), 0);
+		dp[1] = 1;
+		for (int i = 1; i < nums.size(); ++i)
+		{
+			int step = INT_MAX;
+			for (int j = 0; j < i; ++j)
+			{
+				if (nums[j] + j >= i)
+					step = min(step, dp[j] + 1);
+			}
+			dp[i] = step;
+		}
+		return dp.back();
 	}
 };
 
