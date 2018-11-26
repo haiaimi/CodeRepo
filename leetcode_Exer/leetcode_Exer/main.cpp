@@ -1691,6 +1691,28 @@ public:
 		}
 		return res;
 	}
+
+	//全排列 https://leetcode-cn.com/problems/permutations/submissions/
+	//比较简单就是递归
+	vector<vector<int>> permute(vector<int>& nums) {
+		vector<vector<int>> res;
+		if (nums.size() == 1)
+			return vector<vector<int>>(1, vector<int>(1, nums[0]));
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			vector<int> tmp = nums;
+			tmp.erase(tmp.begin() + i);
+			auto out = permute(tmp);
+			for (int j = 0; j < out.size(); ++j)
+			{
+				out[j].insert(out[j].begin(), nums[i]);
+			}
+			res.insert(res.end(), out.begin(), out.end());
+		}
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
@@ -1942,6 +1964,9 @@ int main()
 						-2072,-93476,67981,40887,-89304,-12235,41488,1454,5355,-34855,-72080,24514,-58305,3340,34331,8731,77451,-64983,-57876,82874,62481,-32754,
 						-39902,22451,-79095,-23904,78409,-7418,7791 };
 
+	vector<int> nums1;
+	vector<int> nums2;
+	nums1.insert(nums1.end(), nums2.begin(), nums2.end());
 										
 	//sort(nums.begin(), nums.end());
 	
