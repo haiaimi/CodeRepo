@@ -1730,6 +1730,29 @@ public:
 
 		return profit;
 	}
+
+	//º””Õ’æ https://leetcode-cn.com/problems/gas-station/submissions/
+	//Ã∞–ƒÀ„∑®
+	int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+		int curgas = 0, len = gas.size(), startpos = 0, presub = -1;
+
+		for (int i = 0; i < len; ++i)
+		{
+			int leftgas = gas[i] - cost[i];
+			int tmp = curgas;
+			curgas += leftgas;
+			if (leftgas > 0 && tmp <= 0 && presub <= 0)
+			{
+				startpos = i;
+				presub = leftgas;
+				continue;
+			}
+			if (presub != -1)presub += leftgas;
+		}
+
+		if (curgas >= 0)return startpos;
+		return -1;
+	}
 };
 
 #pragma region BFBRT
