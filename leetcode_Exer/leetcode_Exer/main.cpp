@@ -1753,6 +1753,40 @@ public:
 		if (curgas >= 0)return startpos;
 		return -1;
 	}
+
+	//·Ö·¢ÌÇ¹û https://leetcode-cn.com/problems/candy/submissions/
+	int candy(vector<int>& ratings) {
+		int total = 1, mins = 1, pre = 1, start = 0;
+		for (int i = 1; i < ratings.size(); ++i)
+		{
+			int tmp;
+			if (ratings[i] > ratings[i - 1])
+			{
+				tmp = pre + 1;
+				start = i;
+			}
+			else if (ratings[i] == ratings[i - 1])
+			{
+				start = i;
+				tmp = 1;
+			}
+			else
+			{
+				if (pre == 1)
+				{
+					total += (i - start);
+					tmp = 1;
+				}
+				else tmp = 1;
+			}
+			mins = min(mins, tmp);
+			pre = tmp;
+			total += pre;
+			cout << total << ",";
+		}
+		total -= (mins - 1)*ratings.size();
+		return total;
+	}
 };
 
 #pragma region BFBRT
