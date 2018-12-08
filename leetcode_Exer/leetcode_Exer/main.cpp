@@ -1756,36 +1756,83 @@ public:
 
 	//分发糖果 https://leetcode-cn.com/problems/candy/submissions/
 	int candy(vector<int>& ratings) {
-		int total = 1, mins = 1, pre = 1, start = 0;
+		int total = 1, mins = 1;
+		vector<int> sugarnum(ratings.size(), 1);
+
 		for (int i = 1; i < ratings.size(); ++i)
 		{
 			int tmp;
 			if (ratings[i] > ratings[i - 1])
-			{
-				tmp = pre + 1;
-				start = i;
-			}
+				tmp = sugarnum[i - 1] + 1;
 			else if (ratings[i] == ratings[i - 1])
-			{
-				start = i;
 				tmp = 1;
-			}
 			else
 			{
-				if (pre == 1)
+				if (sugarnum[i - 1] == 1)
 				{
-					total += (i - start);
+					for (int j = i - 1; j >= 0; --j)
+					{
+						if (ratings[j] > ratings[j + 1] && sugarnum[j] <= sugarnum[j + 1])
+							sugarnum[j]++;
+						else break;
+						total++;
+					}
 					tmp = 1;
 				}
 				else tmp = 1;
 			}
 			mins = min(mins, tmp);
-			pre = tmp;
-			total += pre;
-			cout << total << ",";
+			sugarnum[i] = tmp;
+			total += tmp;
 		}
 		total -= (mins - 1)*ratings.size();
 		return total;
+	}
+
+	//去除重复复字母 https://leetcode-cn.com/problems/remove-duplicate-letters/submissions/
+	//时间复杂度较高
+	string removeDuplicateLetters(string s) {
+		string res;
+		int charmark[128] = { 0 };
+		int charnum[128] = { 0 };
+		for (auto iter : s)
+			charnum[iter]++;
+
+		for (int i = 0; i < s.length(); ++i)
+		{
+			charnum[s[i]]--;
+			cout << res << endl;
+			res.push_back(s[i]);
+			if (charmark[s[i]] == 0)
+				charmark[s[i]] = 1;
+			else
+			{
+				int pos = -1;
+				for (int j = 0; j < res.length() - 1; ++j)
+				{
+					if (j == res.length() - 2) { res.pop_back(); break; }
+					if (res[j] == s[i] || pos != -1)
+					{
+						if (pos == -1)pos = j;
+						if (res[pos] >= res[j + 1])
+						{
+							res.erase(pos, 1);
+							break;
+						}
+						else
+						{
+							if (charnum[res[j + 1]] < 1)
+							{
+								res.pop_back();
+								break;
+							}
+							else continue;
+						}
+					}
+				}
+			}
+		}
+		return res;
 	}
 };
 
@@ -1886,7 +1933,8 @@ int main()
 		printf_s("%d ", a[i]);
 
 	puts("");*/
-	
+	string str = "asda";
+	cout << str.erase(2,1) << endl;
 	Solution A;
 	/*bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
 		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
