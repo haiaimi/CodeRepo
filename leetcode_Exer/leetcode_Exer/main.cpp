@@ -1867,7 +1867,86 @@ public:
 		return res;
 	}
 
-	
+	//另一种方法
+	vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
+		int m = nums1.size(), n = nums2.size(), index1 = 0, index2 = 0;
+		vector<int> res;
+		for (int i = 1; i <= k; ++i)
+		{
+			int maxnum = INT_MIN;
+			int maxindex1 = -1, maxindex2 = -1;
+			int tmpindex1 = min(m - 1, index1), tmpindex2 = min(n - 1, index2);
+			bool f1 = true;
+			//vector<int> &tmp=nums1;
+			while (1)
+			{
+				if (tmpindex1 + tmpindex2 + 2 >= m + n)break;
+				if (f1 || tmpindex2 == m - 1)
+				{
+					int tmp = max(index2, min(maxindex2 + 1, n)); //(maxindex2 < 0) ? index2 : (maxindex2 + 1);
+					if (m - tmpindex1 + n - tmp < (k - i))break;
+					if (index2 >= n) { if (maxnum > nums1[tmpindex1]) { maxindex1 = tmpindex1; maxnum = nums1[tmpindex1]; continue; } }
+					if (nums1[tmpindex1] <= nums2[tmpindex2] || tmpindex2 == m - 1)
+					{
+						if (nums1[tmpindex1] <= nums2[tmpindex2])
+						{
+							if (maxnum <= nums2[tmpindex2])
+							{
+								maxindex2 = tmpindex2;
+								maxindex1 = -1;
+								maxnum = nums2[tmpindex2];
+							}
+						}
+						else
+						{
+							if (maxnum < nums1[tmpindex1])
+							{
+								maxindex1 = tmpindex1;
+								maxindex2 = -1;
+								maxnum = nums1[tmpindex1];
+							}
+						}
+						tmpindex1 = min(tmpindex1 + 1, m - 1);
+					}
+					else
+						f1 = false;
+				}
+				else if (!f1 || tmpindex1 == n - 1)
+				{
+					if (n - tmpindex2 + m - (maxindex1 < 0) ? index1 : (maxindex1 + 1) < k - i)break;
+					if (nums2[tmpindex2] <= nums1[tmpindex1] || tmpindex1 == n - 1)
+					{
+						if (nums2[tmpindex2] <= nums1[tmpindex1])
+						{
+							if (maxnum <= nums1[tmpindex1])
+							{
+								maxindex1 = tmpindex1;
+								maxindex2 = -1;
+								maxnum = nums1[tmpindex1];
+							}
+						}
+						else
+						{
+							if (maxnum < nums2[tmpindex1])
+							{
+								maxindex2 = tmpindex2;
+								maxindex1 = -1;
+								maxnum = nums2[tmpindex2];
+							}
+						}
+						tmpindex2 = min(tmpindex2 + 1, n - 1);
+					}
+					else f1 = true;
+				}
+			}
+			if (maxindex1 != -1)index1 = maxindex1 + 1;
+			else index2 = maxindex2 + 1;
+
+			res.push_back(maxnum);
+		}
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
