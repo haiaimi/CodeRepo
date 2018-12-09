@@ -1834,6 +1834,40 @@ public:
 		}
 		return res;
 	}
+
+	//拼接最大数 https://leetcode-cn.com/problems/create-maximum-number/submissions/
+	vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
+		int m = nums1.size(), n = nums2.size();
+		vector<int> res;
+		for (int i = max(0, k - n); i <= min(k, m); ++i) {
+			res = max(res, mergeVector(maxVector(nums1, i), maxVector(nums2, k - i)));
+		}
+		return res;
+	}
+	vector<int> maxVector(vector<int> nums, int k) {
+		int drop = nums.size() - k;
+		vector<int> res;
+		for (int num : nums) {
+			while (drop && res.size() && res.back() < num) {
+				res.pop_back();
+				--drop;
+			}
+			res.push_back(num);
+		}
+		res.resize(k);
+		return res;
+	}
+	vector<int> mergeVector(vector<int> nums1, vector<int> nums2) {
+		vector<int> res;
+		while (nums1.size() + nums2.size()) {
+			vector<int> &tmp = nums1 > nums2 ? nums1 : nums2;
+			res.push_back(tmp[0]);
+			tmp.erase(tmp.begin());
+		}
+		return res;
+	}
+
+	
 };
 
 #pragma region BFBRT
@@ -1933,9 +1967,12 @@ int main()
 		printf_s("%d ", a[i]);
 
 	puts("");*/
-	string str = "asda";
-	cout << str.erase(2,1) << endl;
 	Solution A;
+
+	vector<int> nums1 = { 8,9 };
+	vector<int> nums2 = { 3,9 };
+	A.maxNumber(nums1, nums2, 3);
+	
 	/*bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
 		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
 		"babbbabbbaaabbababbbbababaabbabaabaaabbbbabbbaaabbbaaaaabbbbaabbaaabababbaaaaaabababbababaababbababbbababbbbaaaabaabbabbaaaaabbabbaaaabbbaabaaabaababaababbaaabbbbbabbbbaabbabaabbbbabaaabbababbabbabbab");
@@ -2086,9 +2123,9 @@ int main()
 						-2072,-93476,67981,40887,-89304,-12235,41488,1454,5355,-34855,-72080,24514,-58305,3340,34331,8731,77451,-64983,-57876,82874,62481,-32754,
 						-39902,22451,-79095,-23904,78409,-7418,7791 };
 
-	vector<int> nums1;
-	vector<int> nums2;
-	nums1.insert(nums1.end(), nums2.begin(), nums2.end());
+	//vector<int> nums1;
+	//vector<int> nums2;
+	//nums1.insert(nums1.end(), nums2.begin(), nums2.end());
 										
 	//sort(nums.begin(), nums.end());
 	
