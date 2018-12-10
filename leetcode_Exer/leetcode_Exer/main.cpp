@@ -1839,11 +1839,14 @@ public:
 	vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
 		int m = nums1.size(), n = nums2.size();
 		vector<int> res;
-		for (int i = max(0, k - n); i <= min(k, m); ++i) {
+		//从两个数组取数，一个是i个，另一个是k-i个，所以可以依次计算各个情况最终统计
+		for (int i = max(0, k - n); i <= min(k, m); ++i) { 
 			res = max(res, mergeVector(maxVector(nums1, i), maxVector(nums2, k - i)));
 		}
 		return res;
 	}
+	 
+	//利用栈思想来找出最大k个数（按数组顺序）
 	vector<int> maxVector(vector<int> nums, int k) {
 		int drop = nums.size() - k;
 		vector<int> res;
@@ -1857,6 +1860,8 @@ public:
 		res.resize(k);
 		return res;
 	}
+
+	//这个函数是合并两个数组
 	vector<int> mergeVector(vector<int> nums1, vector<int> nums2) {
 		vector<int> res;
 		while (nums1.size() + nums2.size()) {
@@ -1868,7 +1873,7 @@ public:
 	}
 
 	//另一种方法
-	vector<int> maxNumber(vector<int>& nums1, vector<int>& nums2, int k) {
+	vector<int> maxNumber_1(vector<int>& nums1, vector<int>& nums2, int k) {
 		int m = nums1.size(), n = nums2.size(), index1 = 0, index2 = 0;
 		vector<int> res;
 		for (int i = 1; i <= k; ++i)
@@ -1880,12 +1885,23 @@ public:
 			//vector<int> &tmp=nums1;
 			while (1)
 			{
-				if (tmpindex1 + tmpindex2 + 2 >= m + n)break;
-				if (f1 || tmpindex2 == m - 1)
+				//if (tmpindex1 + tmpindex2 + 2 >= m + n)break;
+				if (f1 || tmpindex2 == n - 1)
 				{
+					//if (tmpindex2 == m - 1)f1 = true;
 					int tmp = max(index2, min(maxindex2 + 1, n)); //(maxindex2 < 0) ? index2 : (maxindex2 + 1);
-					if (m - tmpindex1 + n - tmp < (k - i))break;
-					if (index2 >= n) { if (maxnum > nums1[tmpindex1]) { maxindex1 = tmpindex1; maxnum = nums1[tmpindex1]; continue; } }
+					if (m - tmpindex1 + n - tmp <= (k - i))break;
+					if (index2 >= n) 
+					{ 
+						if (maxnum < nums1[tmpindex1]) 
+						{ 
+							maxindex1 = tmpindex1; 
+							maxnum = nums1[tmpindex1];
+						} 
+						if (tmpindex1 + 1 >= m)break;
+						else tmpindex1++;
+						continue;
+					}
 					if (nums1[tmpindex1] <= nums2[tmpindex2] || tmpindex2 == m - 1)
 					{
 						if (nums1[tmpindex1] <= nums2[tmpindex2])
@@ -1911,9 +1927,22 @@ public:
 					else
 						f1 = false;
 				}
-				else if (!f1 || tmpindex1 == n - 1)
+				else if (!f1 || tmpindex1 == m - 1)
 				{
-					if (n - tmpindex2 + m - (maxindex1 < 0) ? index1 : (maxindex1 + 1) < k - i)break;
+					if (tmpindex1 == m - 1)f1 = false;
+					int tmp = max(index1, min(maxindex1 + 1, m)); //(maxindex2 < 0) ? index2 : (maxindex2 + 1);
+					if (n - tmpindex2 + m - tmp <= (k - i))break;
+					if (index1 >= m)
+					{
+						if (maxnum < nums2[tmpindex2])
+						{
+							maxindex2 = tmpindex2;
+							maxnum = nums2[tmpindex2];
+						}
+						if (tmpindex2 + 1 >= n)break;
+						else tmpindex2++;
+						continue;
+					}
 					if (nums2[tmpindex2] <= nums1[tmpindex1] || tmpindex1 == n - 1)
 					{
 						if (nums2[tmpindex2] <= nums1[tmpindex1])
@@ -1941,8 +1970,31 @@ public:
 			}
 			if (maxindex1 != -1)index1 = maxindex1 + 1;
 			else index2 = maxindex2 + 1;
-
+			cout << maxnum << ",";
 			res.push_back(maxnum);
+		}
+
+		return res;
+	}
+
+	//摆动序列 https://leetcode-cn.com/problems/wiggle-subsequence/submissions/
+	//贪心算法
+	int wiggleMaxLength(vector<int>& nums) {
+		int len = nums.size();
+		int res = len;
+		int prestat = -2;
+		for (int i = 1; i < len; ++i)
+		{
+			int curstat;
+			if (nums[i] - nums[i - 1] > 0)curstat = 1;
+			else if (nums[i] - nums[i - 1] == 0)curstat = 0;
+			else curstat = -1;
+
+			if (curstat == 0) { res--; continue; }
+			if (prestat == curstat)res--;
+			if (prestat == -2) { prestat = curstat; continue; }
+
+			prestat = curstat;
 		}
 
 		return res;
@@ -2048,9 +2100,9 @@ int main()
 	puts("");*/
 	Solution A;
 
-	vector<int> nums1 = { 8,9 };
-	vector<int> nums2 = { 3,9 };
-	A.maxNumber(nums1, nums2, 3);
+	vector<int> nums1 = { 3, 4, 6, 5 };
+	vector<int> nums2 = { 9, 1, 2, 5, 8, 3 };
+	A.maxNumber_1(nums1, nums2, 5);
 	
 	/*bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
 		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
