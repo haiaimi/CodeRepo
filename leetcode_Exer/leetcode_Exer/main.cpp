@@ -1999,6 +1999,20 @@ public:
 
 		return res;
 	}
+
+	//判断子序列 https://leetcode-cn.com/problems/is-subsequence/submissions/
+	//比较简单，直接一遍遍历即可 
+	bool isSubsequence(string s, string t) {
+		int tlen = t.length(), sindex = 0;
+
+		for (auto iter : t)
+		{
+			if (iter == s[sindex])
+				sindex++;
+		}
+		if (sindex == s.length())return true;
+		return false;
+	}
 };
 
 #pragma region BFBRT
