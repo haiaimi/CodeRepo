@@ -1714,6 +1714,31 @@ public:
 		return res;
 	}
 
+	//全排列 II https://leetcode-cn.com/problems/permutations-ii/comments/
+	//比上面多了个去重
+	vector<vector<int>> permuteUnique(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+
+		vector<vector<int>> res;
+		if (nums.size() == 1)
+			return vector<vector<int>>(1, vector<int>(1, nums[0]));
+
+		for (int i = 0; i < nums.size(); ++i)
+		{
+			if (i > 0 && nums[i - 1] == nums[i])continue;
+			vector<int> tmp = nums;
+			tmp.erase(tmp.begin() + i);
+			auto out = permuteUnique(tmp);
+			for (int j = 0; j < out.size(); ++j)
+			{
+				out[j].insert(out[j].begin(), nums[i]);
+			}
+			res.insert(res.end(), out.begin(), out.end());
+		}
+
+		return res;
+	}
+
 	//买卖股票的最佳时机 II
 	//使用贪心算法
 	int maxProfit(vector<int>& prices) {
