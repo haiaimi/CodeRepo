@@ -1814,7 +1814,7 @@ public:
 		return total;
 	}
 
-	//去除重复复字母 https://leetcode-cn.com/problems/remove-duplicate-letters/submissions/
+	//去除重复字母 https://leetcode-cn.com/problems/remove-duplicate-letters/submissions/
 	//时间复杂度较高
 	string removeDuplicateLetters(string s) {
 		string res;
@@ -1826,7 +1826,6 @@ public:
 		for (int i = 0; i < s.length(); ++i)
 		{
 			charnum[s[i]]--;
-			cout << res << endl;
 			res.push_back(s[i]);
 			if (charmark[s[i]] == 0)
 				charmark[s[i]] = 1;
@@ -1858,6 +1857,27 @@ public:
 			}
 		}
 		return res;
+	}
+
+	//算法结构优化，算法思想与上面一样，不过结构优化了很多，效率提高了很多
+	string removeDuplicateLetters_1(string s) {
+		int m[256] = { 0 }, visited[256] = { 0 };
+		string res = "0";
+		for (auto a : s) ++m[a];
+		for (auto a : s) {
+			--m[a];
+			if (visited[a]) continue;
+
+			//主要优化点在这里，小值尽量往前，只要res最后一个元素后面还会出现
+			//要注意优化算法，精简才是美啊，重点是简化思想
+			while (a < res.back() && m[res.back()]) {
+				visited[res.back()] = 0;
+				res.pop_back();
+			}
+			res += a;
+			visited[a] = 1;
+		}
+		return res.substr(1);
 	}
 
 	//拼接最大数 https://leetcode-cn.com/problems/create-maximum-number/submissions/
