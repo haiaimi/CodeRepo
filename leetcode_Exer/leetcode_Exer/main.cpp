@@ -1858,7 +1858,7 @@ public:
 		}
 		return res;
 	}
-
+	
 	//算法结构优化，算法思想与上面一样，不过结构优化了很多，效率提高了很多
 	string removeDuplicateLetters_1(string s) {
 		int m[256] = { 0 }, visited[256] = { 0 };
@@ -2058,6 +2058,39 @@ public:
 		if (sindex == s.length())return true;
 		return false;
 	}
+
+	//旋转图像 https://leetcode-cn.com/problems/rotate-image/submissions/
+	void rotate(vector<vector<int>>& matrix) {
+		int width = matrix[0].size();
+		vector<vector<int>> res = vector<vector<int>>(width, vector<int>(width));
+
+		if (width % 2)res[width / 2][width / 2] = matrix[width / 2][width / 2];
+		for (int i = 0; i < width / 2; ++i)
+		{
+			int len = (width - i * 2 - 1) * 4;
+			for (int j = 0; j < len; ++j)
+			{
+				pair<int, int> curcoord = coordImpl(width, i, j);
+				pair<int, int> descoord = coordImpl(width, i, (j + width - i * 2 - 1) % len);
+
+				res[descoord.first][descoord.second] = matrix[curcoord.first][curcoord.second];
+			}
+		}
+		matrix = res;
+	}
+
+	pair<int, int> coordImpl(int width, int i, int j)
+	{
+		int m = j / (width - 2 * i - 1);
+		int n = j % (width - 2 * i - 1);
+		int x, y;
+		if (m == 0) { x = i; y = i + n; }
+		if (m == 2) { x = width - i - 1; y = width - 1 - i - n; }
+		if (m == 1) { x = i + n; y = width - i - 1; }
+		if (m == 3) { x = width - i - 1 - n; y = i; }
+
+		return pair<int, int>(x, y);
+	}
 };
 
 #pragma region BFBRT
@@ -2158,10 +2191,17 @@ int main()
 
 	puts("");*/
 	Solution A;
+	pair<int, int> res;
 
-	vector<int> nums1 = { 3, 4, 6, 5 };
+	/*vector<int> nums1 = { 3, 4, 6, 5 };
 	vector<int> nums2 = { 9, 1, 2, 5, 8, 3 };
-	A.maxNumber_1(nums1, nums2, 5);
+	A.maxNumber_1(nums1, nums2, 5);*/
+	vector<vector<int>> matrix = {  {1,2,3},
+									{4,5,6},
+									{7,8,9} };
+
+
+	A.rotate(matrix);
 	
 	/*bool res = A.isInterleave_rec("bbbbbabbbbabaababaaaabbababbaaabbabbaaabaaaaababbbababbbbbabbbbababbabaabababbbaabababababbbaaababaa",
 		"babaaaabbababbbabbbbaabaabbaabbbbaabaaabaababaaaabaaabbaaabaaaabaabaabbbbbbbbbbbabaaabbababbabbabaab",
