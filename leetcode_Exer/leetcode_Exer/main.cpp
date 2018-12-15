@@ -2091,6 +2091,37 @@ public:
 
 		return pair<int, int>(x, y);
 	}
+
+	//字母异位词分组 https://leetcode-cn.com/problems/group-anagrams/submissions/
+	//复杂度较高
+	vector<vector<string>> groupAnagrams(vector<string>& strs) {
+		vector<vector<string>> res;
+		vector<map<char, int>> modes;
+
+		for (int i = 0; i < strs.size(); ++i)
+		{
+			string tmpstring = strs[i];
+			map<char, int> tmpmode;
+			for (auto iter : tmpstring)
+				tmpmode[iter]++;
+			int j = 0;
+			for (; j < modes.size(); ++j)
+			{
+				if (modes[j] == tmpmode)
+				{
+					res[j].push_back(tmpstring);
+					break;
+				}
+			}
+			if (j == modes.size())
+			{
+				modes.push_back(tmpmode);
+				res.push_back(vector<string>(1, tmpstring));
+			}
+		}
+
+		return res;
+	}
 };
 
 #pragma region BFBRT
@@ -2190,6 +2221,17 @@ int main()
 		printf_s("%d ", a[i]);
 
 	puts("");*/
+
+	map<char, int> tmp, tmp2;
+	tmp['a']++;
+	tmp['b'] = 2;
+	tmp2['a'] = 1;
+	tmp2['b'] = 2;
+	tmp['a']++;
+	if (tmp == tmp2) 
+	{
+		cout << "map equal!!" << endl;
+	};
 	Solution A;
 	pair<int, int> res;
 
